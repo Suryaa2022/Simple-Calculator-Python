@@ -1,0 +1,1195 @@
+ /**
+ * Copyright (C) 2008-2011 by ProFUSION embedded systems
+ * Copyright (C) 2007 by INdT
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA
+ *
+ * @author Gustavo Sverzut Barbieri <barbieri@profusion.mobi>
+ */
+
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <signal.h>
+#include <time.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "lightmediascanner.h"
+#include "lightmediascanner_private.h"
+#include "lightmediascanner_db_private.h"
+#include "lightmediascanner_logger.h"
+
+struct master_db {
+    sqlite3 *handle;
+    sqlite3_stmt *get_files;
+};
+
+struct slave_db {
+    sqlite3 *handle;
+    sqlite3_stmt *transaction_begin;
+    sqlite3_stmt *transaction_commit;
+    sqlite3_stmt *delete_file_info;
+    sqlite3_stmt *update_file_info;
+};
+
+struct single_process_db {
+    sqlite3 *handle;
+    sqlite3_stmt *get_files;
+    sqlite3_stmt *transaction_begin;
+    sqlite3_stmt *transaction_commit;
+    sqlite3_stmt *delete_file_info;
+    sqlite3_stmt *update_file_info;
+};
+
+/***********************************************************************
+ * Master-Slave communication.
+ ***********************************************************************/
+
+struct comm_finfo {
+    int path_len;
+    int base;
+    int64_t id;
+    time_t mtime;
+    time_t dtime;
+    time_t itime;
+    time_t ctime;
+    size_t size;
+    unsigned int flags;
+#define COMM_FINFO_FLAG_OUTDATED 1
+};
+
+static int
+_master_send_file(const struct fds *master, const struct lms_file_info finfo, unsigned int flags)
+{
+    struct comm_finfo ci;
+
+    ci.path_len = finfo.path_len;
+    ci.base = finfo.base;
+    ci.id = finfo.id;
+    ci.mtime = finfo.mtime;
+    ci.dtime = finfo.dtime;
+    ci.itime = finfo.itime;
+    ci.ctime = finfo.ctime;
+
+    if (finfo.size < 0) {
+      log_warning("WARN: Error file and size is invalid");
+      ci.size = 0;
+    } else {
+      ci.size = (unsigned long)finfo.size;
+    }
+
+    ci.flags = flags;
+
+    if (write(master->w, &ci, sizeof(ci)) < 0) {
+        perror("write");
+        return -1;
+    }
+
+    if (finfo.path_len < 0) {
+      log_error("ERROR: finfo.path_len may underflow");
+    } else {
+      if (write(master->w, finfo.path, (size_t)finfo.path_len) < 0) {
+        log_error("write");
+        return -1;
+      }
+    }
+
+    return 0;
+}
+
+static int
+_master_send_finish(const struct fds *master)
+{
+    struct comm_finfo ci = {-1, -1, -1, -1, -1, -1, -1, 0};
+
+    if (write(master->w, &ci, sizeof(ci)) < 0) {
+        perror("write");
+        return -1;
+    }
+
+    return 0;
+}
+
+static int
+_master_recv_reply(const struct fds *master, struct pollfd *pfd, int *reply, int timeout)
+{
+    int r;
+
+    r = poll(pfd, 1, timeout);
+    if (r < 0) {
+        perror("poll");
+        return -1;
+    }
+
+    if (r == 0)
+        return 1;
+
+    ssize_t read_return = read(master->r, reply, sizeof(*reply));
+    if (read_return < 0) {
+        log_error("ERROR: read_return is -ve");
+        return 1;
+    } else {
+        if ((size_t)read_return != sizeof(*reply)) {
+            perror("read");
+            return -2;
+        }
+    }
+
+    return 0;
+}
+
+static int
+_slave_send_reply(const struct fds *slave, int reply)
+{
+    if (write(slave->w, &reply, sizeof(reply)) == 0) {
+        perror("write");
+        return -1;
+    }
+    return 0;
+}
+
+static int
+_slave_recv_file(const struct fds *slave, struct lms_file_info *finfo, unsigned int *flags)
+{
+    struct comm_finfo ci;
+    static char path[PATH_SIZE + 1];
+    long r = 0;
+    unsigned long size_ci = sizeof(ci);
+
+    if (size_ci > LONG_MAX) {
+       log_error("ERROR: size_ci may overflow");
+    }
+    else {
+       r = read(slave->r, &ci, size_ci);
+       if ((r < 0) || (r != size_ci)) {
+          perror("read");
+          return -1;
+       }
+    }
+
+    finfo->path_len = ci.path_len;
+    finfo->base = ci.base;
+    finfo->id = ci.id;
+    finfo->mtime = ci.mtime;
+    finfo->dtime = ci.dtime;
+    finfo->itime = ci.itime;
+    finfo->ctime = ci.ctime;
+
+    if (ci.size > LONG_MAX)
+      log_error("ERROR: ci.size may overflow");
+    else
+      finfo->size = (long)ci.size;
+    finfo->path = NULL;
+    *flags = ci.flags;
+
+    if (ci.path_len == -1)
+        return 0;
+
+    if (ci.path_len > PATH_SIZE || ci.path_len < 0) {
+        log_error("ERROR: invalid path size (%d) (min: 0, max: %d)",
+                ci.path_len, PATH_SIZE);
+        return -2;
+    }
+
+    r = read(slave->r, path, ci.path_len);
+    if (r != (long)ci.path_len) {
+        log_error("ERROR: could not read whole path %ld/%d",
+                r, ci.path_len);
+        return -3;
+    }
+
+    path[ci.path_len] = 0;
+    finfo->path = path;
+    return 0;
+}
+
+
+/***********************************************************************
+ * Slave-side.
+ ***********************************************************************/
+
+static int
+_slave_db_compile_all_stmts(struct slave_db *db)
+{
+    sqlite3 *handle;
+
+    handle = db->handle;
+
+    db->transaction_begin = lms_db_compile_stmt_begin_transaction(handle);
+    if (!db->transaction_begin)
+        return -1;
+
+    db->transaction_commit = lms_db_compile_stmt_end_transaction(handle);
+    if (!db->transaction_commit)
+        return -2;
+
+    db->delete_file_info = lms_db_compile_stmt_delete_file_info(handle);
+    if (!db->delete_file_info)
+        return -3;
+
+    db->update_file_info = lms_db_compile_stmt_update_file_info(handle);
+    if (!db->update_file_info)
+        return -4;
+
+    return 0;
+}
+
+static struct slave_db *
+_slave_db_open(const char *db_path)
+{
+    struct slave_db *db;
+
+    log_info("[ pid : %d ]", getpid());
+
+    db = calloc(1, sizeof(*db));
+    if (!db) {
+        perror("calloc");
+        return NULL;
+    }
+
+    if (sqlite3_open(db_path, &db->handle) != SQLITE_OK) {
+        log_error("ERROR: could not open DB \"%s\": %s",
+                db_path, sqlite3_errmsg(db->handle));
+        goto error;
+    }
+
+    return db;
+
+  error:
+    sqlite3_close(db->handle);
+    free(db);
+    return NULL;
+}
+
+static int
+_slave_db_close(struct slave_db *db)
+{
+    if (db->transaction_begin)
+        lms_db_finalize_stmt(db->transaction_begin, "transaction_begin");
+
+    if (db->transaction_commit)
+        lms_db_finalize_stmt(db->transaction_commit, "transaction_commit");
+
+    if (db->delete_file_info)
+        lms_db_finalize_stmt(db->delete_file_info, "delete_file_info");
+
+    if (db->update_file_info)
+        lms_db_finalize_stmt(db->update_file_info, "update_file_info");
+
+    if (sqlite3_close(db->handle) != SQLITE_OK) {
+        log_error("ERROR: clould not close DB (slave): %s",
+                sqlite3_errmsg(db->handle));
+        return -1;
+    }
+    free(db);
+
+    return 0;
+}
+
+static int
+_single_process_db_compile_all_stmts(struct single_process_db *db)
+{
+    sqlite3 *handle;
+
+    handle = db->handle;
+
+    db->get_files = lms_db_compile_stmt_get_files(handle);
+    if (!db->get_files)
+        return -1;
+
+    db->transaction_begin = lms_db_compile_stmt_begin_transaction(handle);
+    if (!db->transaction_begin)
+        return -2;
+
+    db->transaction_commit = lms_db_compile_stmt_end_transaction(handle);
+    if (!db->transaction_commit)
+        return -3;
+
+    db->delete_file_info = lms_db_compile_stmt_delete_file_info(handle);
+    if (!db->delete_file_info)
+        return -4;
+
+    db->update_file_info = lms_db_compile_stmt_update_file_info(handle);
+    if (!db->update_file_info)
+        return -5;
+
+    return 0;
+}
+
+static struct single_process_db *
+_single_process_db_open(const char *db_path)
+{
+    struct single_process_db *db;
+
+    db = calloc(1, sizeof(*db));
+    if (!db) {
+        perror("calloc");
+        return NULL;
+    }
+
+    if (sqlite3_open(db_path, &db->handle) != SQLITE_OK) {
+        log_error("ERROR: could not open DB \"%s\": %s",
+                db_path, sqlite3_errmsg(db->handle));
+        goto error;
+    }
+
+    if (lms_db_create_core_tables_if_required(db->handle) != 0) {
+        log_error("ERROR: could not setup tables and indexes.");
+        goto error;
+    }
+
+    if (_single_process_db_compile_all_stmts(db) != 0) {
+        log_error("ERROR: could not compile statements.");
+        goto error;
+    }
+
+    return db;
+
+  error:
+    sqlite3_close(db->handle);
+    free(db);
+    return NULL;
+}
+
+static int
+_single_process_db_close(struct single_process_db *db)
+{
+    if (db->get_files)
+        lms_db_finalize_stmt(db->get_files, "get_files");
+
+    if (db->transaction_begin)
+        lms_db_finalize_stmt(db->transaction_begin, "transaction_begin");
+
+    if (db->transaction_commit)
+        lms_db_finalize_stmt(db->transaction_commit, "transaction_commit");
+
+    if (db->delete_file_info)
+        lms_db_finalize_stmt(db->delete_file_info, "delete_file_info");
+
+    if (db->update_file_info)
+        lms_db_finalize_stmt(db->update_file_info, "update_file_info");
+
+    if (sqlite3_close(db->handle) != SQLITE_OK) {
+        log_error("ERROR: clould not close DB (slave): %s",
+                sqlite3_errmsg(db->handle));
+        return -1;
+    }
+    free(db);
+
+    return 0;
+}
+
+static int
+_init_sync_send(struct fds *fds)
+{
+    return _slave_send_reply(fds, 0);
+}
+
+static int
+_slave_work_int(lms_t *lms, struct fds *fds, struct slave_db *db,
+                unsigned int update_id)
+{
+    struct lms_file_info finfo;
+    void **parser_match;
+    unsigned int counter, flags, total_committed;
+    int r;
+
+
+    if (lms->n_parsers <= 0) {
+       log_error("ERROR: lms->n_parsers may underflow");
+       return -6;
+    }
+    else {
+       parser_match = malloc((size_t)lms->n_parsers * sizeof(*parser_match));
+       if (!parser_match) {
+         log_error("malloc");
+         return -6;
+       }
+    }
+    _init_sync_send(fds);
+
+    counter = 0;
+    total_committed = 0;
+    lms_db_begin_transaction(db->transaction_begin);
+
+    while (((r = _slave_recv_file(fds, &finfo, &flags)) == 0) &&
+           finfo.path_len > 0) {
+        r = lms_db_update_file_info(db->update_file_info, &finfo, update_id);
+        if (r < 0)
+            log_error("ERROR: could not update path in DB");
+        else if (flags & COMM_FINFO_FLAG_OUTDATED) {
+            int used;
+
+            used = lms_parsers_check_using(lms, parser_match, &finfo);
+            if (!used)
+                r = 0;
+            else {
+                r = lms_parsers_run(lms, db->handle, parser_match, &finfo);
+                if (r < 0) {
+                    log_warning("ERROR: pid=%d failed to parse \"%s\".",
+                            getpid(), finfo.path);
+                    lms_db_delete_file_info(db->delete_file_info, &finfo);
+                }
+            }
+        }
+
+        _slave_send_reply(fds, r);
+        counter++;
+        if (counter > lms->commit_interval) {
+            if (!total_committed) {
+                total_committed += counter;
+                lms_db_update_id_set(db->handle, update_id);
+            }
+
+            lms_db_end_transaction(db->transaction_commit);
+            lms_db_begin_transaction(db->transaction_begin);
+            counter = 0;
+        }
+    }
+
+    free(parser_match);
+
+    if (counter) {
+        total_committed += counter;
+        lms_db_update_id_set(db->handle, update_id);
+    }
+
+    lms_db_end_transaction(db->transaction_commit);
+
+    return r;
+}
+
+static int
+_slave_work(struct pinfo *pinfo)
+{
+    lms_t *lms = pinfo->common.lms;
+    struct fds *fds = &pinfo->slave;
+    struct slave_db *db;
+    int r;
+
+    db = _slave_db_open(lms->db_path);
+
+    if (!db) {
+        return -1;
+    }
+
+    if (lms_parsers_setup(lms, db->handle) != 0) {
+        log_error("ERROR: could not setup parsers.");
+        r = -2;
+        goto end;
+    }
+
+    if (_slave_db_compile_all_stmts(db) != 0) {
+        log_error("ERROR: could not compile statements.");
+        r = -3;
+        goto end;
+    }
+
+    if (lms_parsers_start(lms, db->handle) != 0) {
+        log_error("ERROR: could not start parsers.");
+        r = -4;
+        goto end;
+    }
+    if (lms->n_parsers < 1) {
+        log_error("ERROR: no parser could be started, exit.");
+        r = -5;
+        goto end;
+    }
+
+    r = _slave_work_int(lms, fds, db, pinfo->common.update_id);
+
+  end:
+    lms_parsers_finish(lms, db->handle);
+    _slave_db_close(db);
+    _init_sync_send(fds);
+
+    return r;
+}
+
+
+/***********************************************************************
+ * Master-side.
+ ***********************************************************************/
+
+static int
+_master_db_compile_all_stmts(struct master_db *db)
+{
+    sqlite3 *handle;
+
+    handle = db->handle;
+
+    db->get_files = lms_db_compile_stmt_get_files(handle);
+    if (!db->get_files)
+        return -1;
+
+    return 0;
+}
+
+static struct master_db *
+_master_db_open(const char *db_path)
+{
+    struct master_db *db;
+
+    log_info("[ pid : %d ]" , getpid());
+
+    db = calloc(1, sizeof(*db));
+    if (!db) {
+        perror("calloc");
+        return NULL;
+    }
+
+    if (sqlite3_open(db_path, &db->handle) != SQLITE_OK) {
+        log_error("ERROR: could not open DB \"%s\": %s",
+                db_path, sqlite3_errmsg(db->handle));
+        goto error;
+    }
+
+    if (lms_db_create_core_tables_if_required(db->handle) != 0) {
+        log_error("ERROR: could not setup tables and indexes.");
+        goto error;
+    }
+
+    if (_master_db_compile_all_stmts(db) != 0) {
+        log_error("ERROR: could not compile statements.");
+        goto error;
+    }
+
+    return db;
+
+  error:
+    sqlite3_close(db->handle);
+    free(db);
+    return NULL;
+}
+
+static int
+_master_db_close(struct master_db *db)
+{
+    if (db->get_files)
+        lms_db_finalize_stmt(db->get_files, "get_files");
+
+    if (sqlite3_close(db->handle) != SQLITE_OK) {
+        log_error("ERROR: clould not close DB (master): %s",
+                sqlite3_errmsg(db->handle));
+        return -1;
+    }
+    free(db);
+
+    return 0;
+}
+
+static void
+_calc_base(struct lms_file_info *finfo)
+{
+    int i;
+
+    for (i = finfo->path_len - 1; i >= 0; i--)
+        if (finfo->path[i] == '/') {
+            finfo->base = i+1;
+            return;
+        }
+}
+
+static inline void
+_update_finfo_from_stmt(struct lms_file_info *finfo, sqlite3_stmt *stmt)
+{
+    finfo->id = sqlite3_column_int64(stmt, 0);
+    finfo->path = sqlite3_column_blob(stmt, 1);
+    finfo->path_len = sqlite3_column_bytes(stmt, 1);
+    finfo->base = 0;
+    finfo->mtime = sqlite3_column_int(stmt, 2);
+    finfo->dtime = sqlite3_column_int(stmt, 3);
+    finfo->itime = sqlite3_column_int(stmt, 4);
+    finfo->ctime = sqlite3_column_int(stmt, 5);
+    finfo->size = sqlite3_column_int64(stmt, 6);
+}
+
+static inline void
+_update_finfo_from_stat(struct lms_file_info *finfo, const struct stat *st)
+{
+    finfo->mtime = st->st_mtime;
+    finfo->size = st->st_size;
+    finfo->dtime = 0;
+    finfo->itime = time(NULL);
+    if (finfo->itime == (time_t)(-1)) {
+        log_error("ERROR: finfo->itime is error");
+    }
+    finfo->ctime = st->st_ctime;
+}
+
+static inline void
+_report_progress(struct cinfo *info, const struct lms_file_info *finfo, lms_progress_status_t status)
+{
+    lms_progress_callback_t cb;
+    lms_t *lms = info->lms;
+
+    cb = lms->progress.cb;
+    if (!cb)
+        return;
+
+    cb(lms, finfo->path, finfo->path_len, status, lms->progress.data);
+}
+
+static int
+_finfo_update(void *db_ptr, struct cinfo *info, struct lms_file_info *finfo, unsigned int *flags)
+{
+    struct master_db *db = db_ptr;
+    struct stat st;
+
+    _update_finfo_from_stmt(finfo, db->get_files);
+
+    *flags = 0;
+    if (stat(finfo->path, &st) == 0) {
+        if (st.st_mtime == finfo->mtime && (int64_t)st.st_size == finfo->size) {
+            if (finfo->dtime == 0) {
+#ifndef PATCH_LGE
+                _report_progress(info, finfo, LMS_PROGRESS_STATUS_UP_TO_DATE);
+#endif
+                return 0;
+            } else {
+                finfo->dtime = 0;
+                if (finfo->itime == (time_t)-1) {
+                    log_error("ERROR: time error occur");
+                    return 0;
+                }
+                finfo->ctime = st.st_ctime;
+            }
+        } else {
+            _update_finfo_from_stat(finfo, &st);
+            *flags |= COMM_FINFO_FLAG_OUTDATED;
+        }
+    } else {
+        if (finfo->dtime) {
+            return 0;
+        } else {
+            finfo->dtime = time(NULL);
+            if (finfo->dtime == (time_t)-1) {
+                log_error("ERROR: time error occur");
+                return 0;
+            }
+        }
+    }
+
+    _calc_base(finfo);
+
+    return 1;
+}
+
+static int
+_check_row(void *db_ptr, struct cinfo *info)
+{
+    struct pinfo *pinfo = (struct pinfo *)info;
+    struct master_db *db = db_ptr;
+    struct lms_file_info finfo;
+    unsigned int flags;
+    int r, reply;
+
+    r = _finfo_update(db, info, &finfo, &flags);
+    if (r == 0)
+        return r;
+
+    if (_master_send_file(&pinfo->master, finfo, flags) != 0)
+        return -1;
+
+    r = _master_recv_reply(&pinfo->master, &pinfo->poll, &reply,
+                           pinfo->common.lms->slave_timeout);
+    if (r < 0) {
+        _report_progress(info, &finfo, LMS_PROGRESS_STATUS_ERROR_COMM);
+        return -2;
+    } else if (r == 1) {
+        log_error("ERROR: slave took too long, restart %d",
+                pinfo->child);
+        _report_progress(info, &finfo, LMS_PROGRESS_STATUS_KILLED);
+        if (lms_restart_slave(pinfo, _slave_work) != 0)
+            return -3;
+        return 1;
+    } else {
+        if (reply < 0) {
+            log_warning("ERROR: pid=%d failed to parse \"%s\".",
+                    getpid(), finfo.path);
+            _report_progress(info, &finfo, LMS_PROGRESS_STATUS_ERROR_PARSE);
+            return (-reply) << 8;
+        } else {
+            if (!finfo.dtime)
+                _report_progress(info, &finfo, LMS_PROGRESS_STATUS_PROCESSED);
+            else
+                _report_progress(info, &finfo, LMS_PROGRESS_STATUS_DELETED);
+            return reply;
+        }
+    }
+}
+
+static int
+_check_row_single_process(void *db_ptr, struct cinfo *info)
+{
+    struct sinfo *sinfo = (struct sinfo *)info;
+    struct single_process_db *db = db_ptr;
+    struct lms_file_info finfo;
+    unsigned int flags;
+    int r;
+
+    void **parser_match = sinfo->parser_match;
+    lms_t *lms = info->lms;
+
+    r = _finfo_update(db, info, &finfo, &flags);
+    if (r == 0)
+        return r;
+
+    r = lms_db_update_file_info(db->update_file_info, &finfo,
+                                sinfo->common.update_id);
+    if (r < 0)
+        log_error("ERROR: could not update path in DB");
+    else if (flags & COMM_FINFO_FLAG_OUTDATED) {
+        int used;
+
+        used = lms_parsers_check_using(lms, parser_match, &finfo);
+        if (!used)
+            r = 0;
+        else {
+            r = lms_parsers_run(lms, db->handle, parser_match, &finfo);
+            if (r < 0) {
+                log_warning("ERROR: pid=%d failed to parse \"%s\".",
+                        getpid(), finfo.path);
+                lms_db_delete_file_info(db->delete_file_info, &finfo);
+            }
+        }
+    }
+
+    if (r < 0) {
+        _report_progress(info, &finfo, LMS_PROGRESS_STATUS_ERROR_PARSE);
+        return (-r) << 8;
+    } else {
+        if ((sinfo->commit_counter) > UINT_MAX - 1) {
+            log_error("ERROR:  sinfo->commit_counter++ may wrap");
+            return 0;
+        } else {
+            sinfo->commit_counter++;
+        }
+
+        if (sinfo->commit_counter > lms->commit_interval) {
+            if (!sinfo->total_committed) {
+                sinfo->total_committed += sinfo->commit_counter;
+                lms_db_update_id_set(db->handle, sinfo->common.update_id);
+            }
+
+            lms_db_end_transaction(db->transaction_commit);
+            lms_db_begin_transaction(db->transaction_begin);
+            sinfo->commit_counter = 0;
+        }
+
+        if (!finfo.dtime)
+            _report_progress(info, &finfo, LMS_PROGRESS_STATUS_PROCESSED);
+        else
+            _report_progress(info, &finfo, LMS_PROGRESS_STATUS_DELETED);
+        return r;
+    }
+}
+
+static int
+_init_sync_wait(struct pinfo *pinfo, int restart)
+{
+    int r, reply;
+
+    do {
+        r = _master_recv_reply(&pinfo->master, &pinfo->poll, &reply,
+                               pinfo->common.lms->slave_timeout);
+        if (r < 0)
+            return -1;
+        else if (r == 1 && restart) {
+            log_error("ERROR: slave took too long, restart %d",
+                    pinfo->child);
+            if (lms_restart_slave(pinfo, _slave_work) != 0)
+                return -2;
+        }
+    } while (r != 0 && restart);
+
+    return r;
+}
+
+static int
+_master_dummy_send_finish(const struct fds *master)
+{
+    return 0;
+}
+
+static int
+_db_files_loop(void *db_ptr, struct cinfo *info, check_row_callback_t check_row)
+{
+    struct master_db *db = db_ptr;
+    lms_t *lms = info->lms;
+    int r;
+
+    do {
+        r = sqlite3_step(db->get_files);
+        if (r == SQLITE_ROW) {
+            if (check_row(db_ptr, info) < 0) {
+                log_error("ERROR: could not check row.");
+                return -1;
+            }
+        } else if (r != SQLITE_DONE) {
+            log_error("ERROR: could not begin transaction: %s",
+                    sqlite3_errmsg(db->handle));
+            return -2;
+        }
+    } while (r != SQLITE_DONE && !lms->stop_processing);
+
+    return 0;
+}
+
+static int
+_is_file(const char *path)
+{
+    struct stat st;
+    if (stat(path, &st) != 0)
+        return 0;
+    return S_ISREG(st.st_mode);
+}
+
+static int
+_check(struct pinfo *pinfo, int len, char *path)
+{
+    char query[PATH_SIZE + 3];
+    struct master_db *db;
+    int ret = 0;
+
+    log_info("[ pid : %d ]", getpid());
+
+    db = _master_db_open(pinfo->common.lms->db_path);
+
+    if (!db) {
+        return -1;
+    }
+
+    if (_is_file(path)){
+        if ((len > (PATH_SIZE -1) ) || ((len + 1) < 0)) {
+             log_error("ERROR: (len + 1) value may result in lost or misinterpreted data.");
+             return -1;
+        }
+        memcpy(query, path, (size_t)(len + 1));
+    }
+    else
+    {
+        if(*(path+len-1) == '/'){
+            memcpy(query, path, len);
+            memcpy(query + len, "%", sizeof("%"));
+            len += sizeof("%") - 1;
+        }
+        else
+        {
+            memcpy(query, path, len);
+            memcpy(query + len, "/%", sizeof("/%"));
+            len += sizeof("/%") - 1;
+        }
+    }
+    ret = lms_db_get_files(db->get_files, query, len);
+    if (ret != 0)
+        goto end;
+
+    ret = lms_db_update_id_get(db->handle);
+    if (ret < 0) {
+        log_error("ERROR: could not get global update id.");
+        goto end;
+    }
+
+    pinfo->common.update_id = ret + 1;
+
+    if (lms_create_slave(pinfo, _slave_work) != 0) {
+        ret = -2;
+        goto end;
+    }
+
+    _init_sync_wait(pinfo, 1);
+
+    ret = _db_files_loop(db, (struct cinfo *)pinfo, _check_row);
+
+    _master_send_finish(&pinfo->master);
+    _init_sync_wait(pinfo, 0);
+    lms_finish_slave(pinfo, _master_dummy_send_finish);
+
+  end:
+    lms_db_reset_stmt(db->get_files);
+    _master_db_close(db);
+
+    return ret;
+}
+
+static int
+_check_single_process(struct sinfo *sinfo, int len, char *path)
+{
+    struct single_process_db *db;
+    char query[PATH_SIZE + 2];
+    void **parser_match = NULL;
+    lms_t *lms;
+    int ret;
+
+    lms = sinfo->common.lms;
+    db = _single_process_db_open(lms->db_path);
+
+    if (!db) {
+        return -1;
+    }
+
+    if (_is_file(path)){
+        if ((len + 1) < 0) {
+          log_error("ERROR: (len + 1) may underflow");
+          return -1;
+        }
+        else
+        {
+          memcpy(query, path, (size_t)(len + 1));
+        }
+    }
+    else
+    {
+       if (len < 0){
+          log_error("ERROR: len  may underflow");
+          return -1;
+       }
+       else
+       {
+          memcpy(query, path, (size_t)len);
+          memcpy(query + len, "/%", sizeof("/%"));
+          len += sizeof("/%") - 1;
+       }
+    }
+    ret = lms_db_get_files(db->get_files, query, len);
+    if (ret != 0)
+        goto end;
+
+    if (lms_parsers_setup(lms, db->handle) != 0) {
+        log_error("ERROR: could not setup parsers.");
+        ret = -2;
+        goto end;
+    }
+
+    if (lms_parsers_start(lms, db->handle) != 0) {
+        log_error("ERROR: could not start parsers.");
+        ret = -3;
+        goto end;
+    }
+
+    if (lms->n_parsers < 1) {
+        log_error("ERROR: no parser could be started, exit.");
+        ret = -4;
+        goto end;
+    }
+
+    parser_match = malloc(lms->n_parsers * sizeof(*parser_match));
+    if (!parser_match) {
+        perror("malloc");
+        ret = -5;
+        goto end;
+    }
+
+    ret = lms_db_update_id_get(db->handle);
+    if (ret < 0) {
+        log_error("ERROR: could not get global update id.");
+        goto end;
+    }
+
+    sinfo->common.update_id = ret + 1;
+    sinfo->parser_match = parser_match;
+
+    lms_db_begin_transaction(db->transaction_begin);
+
+    ret = _db_files_loop(db, (struct cinfo *)sinfo, _check_row_single_process);
+
+    /* Check only if there are remaining commits to do */
+    if (sinfo->commit_counter) {
+        if (UINT_MAX - sinfo->total_committed <  sinfo->commit_counter) {
+            log_error("unsigned int operation sinfo->total_committed += sinfo->commit_counter may wrap");
+            ret = -5;
+            goto end;
+        } else {
+            sinfo->total_committed += sinfo->commit_counter;
+        }
+        lms_db_update_id_set(db->handle, sinfo->common.update_id);
+    }
+
+    lms_db_end_transaction(db->transaction_commit);
+
+end:
+    free(parser_match);
+    lms_parsers_finish(lms, db->handle);
+    lms_db_reset_stmt(db->get_files);
+    _single_process_db_close(db);
+
+    return ret;
+}
+
+static int
+_lms_check_check_valid(lms_t *lms, const char *path)
+{
+    if (!lms)
+        return -1;
+
+    if (!path)
+        return -2;
+
+    if (lms->is_processing) {
+        log_error("ERROR: is already processing.");
+        return -3;
+    }
+
+    if (!lms->parsers) {
+        log_error("ERROR: no plugins registered.");
+        return -4;
+    }
+
+    return 0;
+}
+
+/**
+ * Check consistency of given directory or file.
+ *
+ * This will update media in the given directory or its children. If files
+ * are missing, they'll be marked as deleted (dtime is set), if they were
+ * marked as deleted and are now present, they are unmarked (dtime is unset).
+ *
+ * @param lms previously allocated Light Media Scanner instance.
+ * @param top_path top directory or file to scan.
+ *
+ * @return On success 0 is returned.
+ */
+int
+lms_check(lms_t *lms, const char *top_path)
+{
+    char path[PATH_SIZE];
+    struct pinfo pinfo = {};
+    int r = 0;
+    size_t str_len = 0;
+
+    pthread_mutex_lock(lms->mtx);
+
+    log_info("+ lock [ pid : %d ] ..... [[ START ]]", getpid());
+
+    r = _lms_check_check_valid(lms, top_path);
+    if (r < 0) {
+        pthread_mutex_unlock(lms->mtx);
+        log_info("+ unlock [ pid : %d ]", getpid());
+        return r;
+    }
+
+    pinfo.common.lms = lms;
+
+    if (lms_create_pipes(&pinfo) != 0) {
+        r = -5;
+        goto end;
+    }
+
+    if (realpath(top_path, path) == NULL) {
+       size_t len = strlen(top_path);
+       if (len >= UINT_MAX) {
+           log_error("ERROR: len may overflow");
+           pthread_mutex_unlock(lms->mtx);
+           return -5;
+       }
+       if (len + 1 < PATH_SIZE) {
+          memcpy(path, top_path, len + 1);
+       }
+       else {
+          log_error("ERROR: path is too long: %s", top_path);
+          pthread_mutex_unlock(lms->mtx);
+          return -5;
+       }
+    }
+
+    lms->is_processing = 1;
+    lms->stop_processing = 0;
+    str_len = strlen(path);
+    if (str_len > PATH_SIZE - 1) {
+        log_error("ERROR: str_len may overflow");
+        pthread_mutex_unlock(lms->mtx);
+        return -5;
+    } else {
+        r = _check(&pinfo, str_len, path);
+    }
+    lms->is_processing = 0;
+    lms->stop_processing = 0;
+
+    lms_close_pipes(&pinfo);
+
+end:
+    pthread_mutex_unlock(lms->mtx);
+
+    log_info("+ unlock [ pid : %d ] ..... [[ END ]]", getpid());
+
+    return r;
+}
+
+/**
+ * Check consistency of given directory or file *without fork()-ing* into child process.
+ *
+ * This will update media in the given directory or its children. If files
+ * are missing, they'll be marked as deleted (dtime is set), if they were
+ * marked as deleted and are now present, they are unmarked (dtime is unset).
+ * Note that if a parser hangs in the check process, this call will also hang.
+ *
+ * @param lms previously allocated Light Media Scanner instance.
+ * @param top_path top directory or file to scan.
+ *
+ * @return On success 0 is returned.
+ */
+int
+lms_check_single_process(lms_t *lms, const char *top_path)
+{
+    char path[PATH_SIZE];
+    struct sinfo sinfo = {};
+    int r = 0;
+    size_t str_len = 0;
+
+    r = _lms_check_check_valid(lms, top_path);
+    if (r < 0)
+        return r;
+
+    sinfo.common.lms = lms;
+    sinfo.commit_counter = 0;
+    sinfo.total_committed = 0;
+
+    if (realpath(top_path, path) == NULL) {
+       size_t len = strlen(top_path);
+       if (len >= UINT_MAX) {
+           log_error("ERROR: len may overflow");
+           return -5;
+       }
+       if (len + 1 < PATH_SIZE) {
+          memcpy(path, top_path, len);
+          path[len + 1] = '\0';
+       }
+       else {
+          log_error("ERROR: path is too long: %s", top_path);
+          return -5;
+       }
+   }
+
+    lms->is_processing = 1;
+    lms->stop_processing = 0;
+    str_len = strlen(path);
+    if (str_len > (PATH_SIZE - 1)) {
+        log_error("ERROR: str_len may overflow");
+        return -5;
+    } else {
+        r = _check_single_process(&sinfo, str_len, path);
+    }
+    lms->is_processing = 0;
+    lms->stop_processing = 0;
+
+    return r;
+}
