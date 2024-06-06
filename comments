@@ -1,0 +1,1 @@
+gcc -shared -o libmyvolumefilter.so myvolumefilter.c $(pkg-config --cflags --libs gstreamer-1.0)
