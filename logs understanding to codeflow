@@ -1,0 +1,73 @@
+string PlayerEngineManager::getConnectionName(uint32_t mediaId) {
+
+    map<int, string>::iterator it = connectionMap.find(mediaId);
+    if (it != connectionMap.end()) {
+        return it->second;
+    } else {
+        MMLogInfo("Key-value pair not present in map");
+        return string();
+    }
+}
+string PlayerEngineManager::getConnectionName() {
+
+    string ret("");
+    usleep(100 * 1000);
+    MMLogInfo("getConnectionName() method");
+    GError *error = NULL;
+
+    GDBusConnection *conn = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
+    if (!conn) {
+        MMLogError("GDBusConnection is NULL");
+        if (error)
+            g_error_free(error);
+        return ret;
+    }
+
+    GDBusProxy *proxy = g_dbus_proxy_new_sync(conn,
+                        G_DBUS_PROXY_FLAGS_NONE,
+                        NULL,
+                        "org.freedesktop.DBus",
+                        "/org/freedesktop/DBus",
+                        "org.freedesktop.DBus",
+                        NULL,
+                        &error);
+    if (!proxy) {
+        MMLogError("Proxy is NULL");
+        if (error)
+            g_error_free(error);
+        return ret;
+    }
+
+    GVariant *result = g_dbus_proxy_call_sync(proxy,
+                       "GetNameOwner",
+                       g_variant_new ("(s)","com.lge.PlayerEngine"),
+                       G_DBUS_CALL_FLAGS_NONE,
+                       -1,
+                       NULL,
+                       &error);
+    if (!result) {
+        MMLogError("result is NULL");
+        if (error)
+            g_error_free(error);
+        return ret;
+    }
+
+    if (error) {
+        MMLogError("Error-----%s", error->message);
+        g_error_free(error);
+        return ret;
+    }
+
+    GVariant *temp;
+    gchar *value;
+    temp = g_variant_get_child_value (result, 0);
+    g_variant_get (temp, "s", &value);
+    MMLogInfo("New connection name created = %s", value);
+    ret = (value ? value : "");
+
+    g_free(value);
+    g_variant_unref(result);
+    g_object_unref(proxy);
+    g_object_unref(conn);
+    return ret;
+}
