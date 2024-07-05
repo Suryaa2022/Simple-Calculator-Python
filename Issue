@@ -1,0 +1,40 @@
+[11:42 AM] Akshay Annigeri/LGSIA Multimedia-2(akshay.annigeri@lge.com)
+ISSUE : 
+[RG3 EV Modification][ccIC27] When Hey Genesis voice is spoken after playing ccRC media, all seats radio is played
+ 
+DESCRIPTION :
+#Initial condition: Front seat BT connection
+
+#Operating condition: After occupying the media in the rear seat (ccRC), voice recognition is initiated with Hey Genesis (today's weather)
+
+#Problem phenomenon: Weather is not announced (weather is announced on the screen) and FM radio sound is output from the media in the front seats
+
+#Time: Always reproduced (around 10:50)
+
+Log: GENESISP-8478, GENESIP-8479
+
+Version: RG3E.KOR.ccIC2.027.046.240629
+ 
+[11:44 AM] Akshay Annigeri/LGSIA Multimedia-2(akshay.annigeri@lge.com)
+Comment addressing our team :
+ 
+"
+Mr. Yoon Hyun-soo hyunsoo.yoon .
+
+I requested setURL, but play says that it is not a radio, even though it is a radio sound. Please check.
+// KAKAO_I_STREAMING audio focus획득 후 urlPlay요청
+
+126385 2024/07/02 10:46:08.761612 6646.8847 244 CCIC VHMI VHMI 1556 log info verbose 1 VHAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: audio::HAudioDeviceType::SPEAKER, status: audio::HAudioFocusStatusType::GET)
+126672 2024/07/02 10:46:08.793529 6646.9290 81 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : call url play
+
+126674 2024/07/02 10:46:08.793566 6646.9291 82 CCIC VA DBG 2695 log info verbose 1 urlPlay
+
+126675 2024/07/02 10:46:08.793584 6646.9291 211 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) setURL:739 : called setURL(13) : http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3
+
+126676 2024/07/02 10:46:08.793607 6646.9291 83 CCIC VA DBG 2695 log error verbose 1 setURL(http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3) -> 0
+"
+ 
+COMMENT : "If you see the attached video, tester request "today's weather" by VR,
+but weather information was not played. 
+Could you please help to check mediaframeowk. ?"
+ 
