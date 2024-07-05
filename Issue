@@ -37,4 +37,24 @@ I requested setURL, but play says that it is not a radio, even though it is a ra
 COMMENT : "If you see the attached video, tester request "today's weather" by VR,
 but weather information was not played. 
 Could you please help to check mediaframeowk. ?"
- 
+
+
+6646.8847 
+
+211246 2024/07/02 07:16:08.761595 6646.8847 243 CCIC VHMI VHMI 1556 log info verbose 1 check Device Type HAudioDeviceType:[285212672] comparing to SPEAKER HAudioDeviceType:[285212672]
+211247 2024/07/02 07:16:08.761612 6646.8847 244 CCIC VHMI VHMI 1556 log info verbose 1 VHAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: audio::HAudioDeviceType::SPEAKER, status: audio::HAudioFocusStatusType::GET)
+211248 2024/07/02 07:16:08.761628 6646.8847 245 CCIC VHMI VHMI 1556 log info verbose 1 check Device Type HAudioDeviceType:[285212672] comparing to SPEAKER HAudioDeviceType:[285212672]
+
+6646.9290 
+
+211533 2024/07/02 07:16:08.793512 6646.9290 189 CCIC VNS VNS 276 log info verbose 1 [VSDM] CAN R = idx: 2351, v: 0x1b
+211534 2024/07/02 07:16:08.793529 6646.9290 81 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : call url play
+211535 2024/07/02 07:16:08.793546 6646.9290 190 CCIC VNS VNS 276 log info verbose 1 [EV-Adaptor] [onElectricityUsageChanged] type : 1 , watt : 27
+
+6646.9291 
+
+211536 2024/07/02 07:16:08.793566 6646.9291 82 CCIC VA DBG 2695 log info verbose 1 urlPlay
+211537 2024/07/02 07:16:08.793584 6646.9291 211 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) setURL:739 : called setURL(13) : [http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3]
+211538 2024/07/02 07:16:08.793607 6646.9291 83 CCIC VA DBG 2695 log error verbose 1 setURL(http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3) -> 0
+
+
