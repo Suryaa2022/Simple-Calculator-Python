@@ -57,4 +57,725 @@ Could you please help to check mediaframeowk. ?"
 211537 2024/07/02 07:16:08.793584 6646.9291 211 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) setURL:739 : called setURL(13) : [http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3]
 211538 2024/07/02 07:16:08.793607 6646.9291 83 CCIC VA DBG 2695 log error verbose 1 setURL(http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3) -> 0
 
+=======================================================================================================================================
+
+mediaplay and stop command
+
+178945 2024/07/02 07:17:25.975850 6724.1116 202 CCIC VA DBG 2695 log info verbose 1 onMessageRecieved(sender: ccos.hmi.vr.center-front, msgID: APP_REQUEST_ACTION, preparing: 0)
+178952 2024/07/02 07:17:25.975976 6724.1117 208 CCIC VA DBG 2695 log error verbose 1 "cp": "kakao",
+178951 2024/07/02 07:17:25.975957 6724.1117 207 CCIC VA DBG 2695 log error verbose 1 "command": "mediaStop",
+178950 2024/07/02 07:17:25.975940 6724.1117 206 CCIC VA DBG 2695 log error verbose 1 {
+178949 2024/07/02 07:17:25.975919 6724.1117 205 CCIC VA DBG 2695 log error verbose 1 iac message received from VR
+178948 2024/07/02 07:17:25.975902 6724.1117 204 CCIC VA DBG 2695 log info verbose 1 [VAClusterHudService]initState()
+178947 2024/07/02 07:17:25.975885 6724.1117 203 CCIC VA DBG 2695 log error verbose 1 received jsonData: {"command":"mediaStop","cp":"kakao","endBeep":true}
+178958 2024/07/02 07:17:25.979687 6724.1118 214 CCIC VA DBG 2695 log error verbose 1 notifyStatus : status SYNTHESIZER_STOPPED, Queue size: 1, token shadow//21556e59-2597-47be-8a95-b7802a4c61af
+178957 2024/07/02 07:17:25.979666 6724.1118 213 CCIC VA DBG 2695 log error verbose 1 setAnnounceStatus(Idle)
+178956 2024/07/02 07:17:25.979631 6724.1118 212 CCIC VA DBG 2695 log error verbose 1 void VAKakaoAnnounceManager::initTaskAfterVRScreenHided(),
+178955 2024/07/02 07:17:25.976030 6724.1118 211 CCIC VA DBG 2695 log info verbose 1 command -> mediaStop
+178954 2024/07/02 07:17:25.976013 6724.1118 210 CCIC VA DBG 2695 log error verbose 1 }
+178953 2024/07/02 07:17:25.975996 6724.1118 209 CCIC VA DBG 2695 log error verbose 1 "endBeep": true
+179107 2024/07/02 07:17:26.002128 6724.1377 217 CCIC VA DBG 2695 log error verbose 1 VAMediaPlayer::stop
+179106 2024/07/02 07:17:26.002112 6724.1377 216 CCIC VA DBG 2695 log info verbose 1 stop:: mMediaPlayerRequestCnt -> 1
+179105 2024/07/02 07:17:26.002095 6724.1377 215 CCIC VA DBG 2695 log error verbose 1 HClientStatusNotifier::getInstance().notifyStatus(SYNTHESIZER_STOPPED) returns 0
+179110 2024/07/02 07:17:26.002214 6724.1383 215 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:373][stop] mid=[231768], ins_num=[4], aid=[1414], f=[0]
+179112 2024/07/02 07:17:26.002248 6724.1384 217 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:1298][process] [StopCommand] proxy=[1] state=[2]
+179111 2024/07/02 07:17:26.002232 6724.1384 216 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:1290][process] [StopCommand] mid=[231768]
+179113 2024/07/02 07:17:26.002264 6724.1385 218 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:214][getRateAttrIdx] [getRateAttrIdx] Rate list size[1]
+179114 2024/07/02 07:17:26.003089 6724.1386 219 CCIC MMSV MMSV 1150 log info verbose 1 [event_system.cpp:97][WaitEvent] success:0x00000004, fail:0x00000000
+179115 2024/07/02 07:17:26.003159 6724.1393 182 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:307][UnloadInternal] UnloadInternal(1)
+179117 2024/07/02 07:17:26.003195 6724.1394 184 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:331][UnloadInternal] cur_state is [4]
+179116 2024/07/02 07:17:26.003179 6724.1394 183 CCIC PESV PESV 231768 log info verbose 1 [subtitle_controller.cpp:100][Stop] Stop
+179118 2024/07/02 07:17:26.003212 6724.1395 185 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:730][ChangeStateToReady]
+179172 2024/07/02 07:17:26.034277 6724.1570 187 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:335][UnloadInternal] After changing state to READY(2)-[2]
+179171 2024/07/02 07:17:26.034260 6724.1570 186 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:744][ChangeStateToReady] state[2] done
+179174 2024/07/02 07:17:26.034311 6724.1586 189 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:344][StopGstPipeline] Destroy get_state : SUCCESS
+179173 2024/07/02 07:17:26.034294 6724.1586 188 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:342][StopGstPipeline] Destroy set_state : SUCCESS
+179180 2024/07/02 07:17:26.034459 6724.1602 190 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:74][~GstMedia]
+179181 2024/07/02 07:17:26.034478 6724.1603 191 CCIC PESV PESV 231768 log info verbose 1 [seek_control.cpp:62][Exit]
+179182 2024/07/02 07:17:26.034495 6724.1605 192 CCIC PESV PESV 231768 log info verbose 1 [seek_control.cpp:83][Loop] receive exit message
+179183 2024/07/02 07:17:26.034513 6724.1606 193 CCIC PESV PESV 231768 log info verbose 1 [seek_control.cpp:35][~SeekControl]
+179184 2024/07/02 07:17:26.034530 6724.1607 194 CCIC PESV PESV 231768 log info verbose 1 [event.cpp:119][NotifyEventPlaybackStatus] [NotifyEventPlaybackStatus] Stopped
+179192 2024/07/02 07:17:26.034695 6724.1632 220 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2580][onPlaybackStatus] Stopped
+179199 2024/07/02 07:17:26.034810 6724.1634 222 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:232][getSpeedAttrIdx] [getSpeedAttrIdx] Speed list size[1]
+179198 2024/07/02 07:17:26.034794 6724.1634 221 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:214][getRateAttrIdx] [getRateAttrIdx] Rate list size[1]
+179206 2024/07/02 07:17:26.035005 6724.1662 245 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) getHandleFromMediaIDMap:4328 : find handle=[13], media_id=[231768]
+179207 2024/07/02 07:17:26.035028 6724.1663 246 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) PlaybackStatusChangeCallbackInternal:2911 : handle(13), onPlayingStateChanged(STOPPED)
+179232 2024/07/02 07:17:26.048481 6724.1818 195 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:92][ParsePipelineType] return media type is [0]
+179235 2024/07/02 07:17:26.048552 6724.1819 198 CCIC PESV PESV 231768 log info verbose 1 [subtitle_controller.cpp:38][~SubtitleController]
+179234 2024/07/02 07:17:26.048535 6724.1819 197 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:70][~StreamingPipeline]
+179233 2024/07/02 07:17:26.048518 6724.1819 196 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:126][ParsePipelineType] media_type[0]
+179236 2024/07/02 07:17:26.048568 6724.1820 199 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:258][Stop] Stop() called, ret=[1]
+179239 2024/07/02 07:17:26.048662 6724.1838 224 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:1340][process] Erasing attribute from vector wit media-id : 231768
+179238 2024/07/02 07:17:26.048635 6724.1838 223 CCIC MMSV MMSV 1150 log info verbose 1 [event_system.cpp:105][WaitEvent] got succeed event: 00000004
+179241 2024/07/02 07:17:26.048744 6724.1843 226 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:1365][process] Mutex lock() in rate_list before removing it
+179240 2024/07/02 07:17:26.048683 6724.1843 225 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:214][getRateAttrIdx] [getRateAttrIdx] Rate list size[1]
+179243 2024/07/02 07:17:26.048787 6724.1845 228 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:1391][process] Mutex lock() in speed_list before removing it
+179242 2024/07/02 07:17:26.048768 6724.1845 227 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:232][getSpeedAttrIdx] [getSpeedAttrIdx] Speed list size[1]
+179244 2024/07/02 07:17:26.048803 6724.1846 229 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3350][resetPEProxy]
+179245 2024/07/02 07:17:26.048823 6724.1848 230 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3364][resetPEProxy] Connection Name :1.76 is erased
+179255 2024/07/02 07:17:26.053224 6724.1891 221 CCIC VA DBG 2695 log error verbose 1 call disconnect
+179254 2024/07/02 07:17:26.053202 6724.1891 220 CCIC VA DBG 2695 log error verbose 1 stopTimer!
+179253 2024/07/02 07:17:26.053153 6724.1891 219 CCIC VA DBG 2695 log error verbose 1 VAPlayStatusNotifier::clearTask
+179252 2024/07/02 07:17:26.052911 6724.1891 218 CCIC VA DBG 2695 log error verbose 1 HMediaPlayer::stop result 0
+179251 2024/07/02 07:17:26.052894 6724.1891 247 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) stop:1377 : return stop(13)
+179257 2024/07/02 07:17:26.066460 6724.1915 231 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:373][stop] mid=[231768], ins_num=[4], aid=[1414], f=[1]
+179259 2024/07/02 07:17:26.066583 6724.1916 233 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:67][destroyPlayerEngine] PlayerEngine[231768] process will be destroyed
+179258 2024/07/02 07:17:26.066563 6724.1916 232 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3350][resetPEProxy]
+179261 2024/07/02 07:17:26.066627 6724.1917 235 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:184][removeMediaId] the player engine[pid:0] is destroyed
+179260 2024/07/02 07:17:26.066607 6724.1917 234 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:72][destroyPlayerEngine] PlayerEngine process 0 destroyed
+179263 2024/07/02 07:17:26.066666 6724.1918 237 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:413][stop] Connection Name :1.76 is removed from connectionMap, reuse=[0]
+179262 2024/07/02 07:17:26.066646 6724.1918 236 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:190][removeMediaId] Removed the connection name[:1.76] since the player engine is destroyed
+179264 2024/07/02 07:17:26.066685 6724.1923 248 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) stop:1377 : return stop(13)
+179277 2024/07/02 07:17:26.068582 6724.2016 223 CCIC VA DBG 2695 log error verbose 1 stop playing
+179276 2024/07/02 07:17:26.068559 6724.2016 222 CCIC VA DBG 2695 log error verbose 1 HClientStatusNotifier::getInstance().disconnect() returns 0 , mConnectedToken clear
+179280 2024/07/02 07:17:26.068654 6724.2026 75 CCIC PESV PESV 98793 log info verbose 1 [dbus_player_service.cpp:346][OnDBusNameAcquired] OnDBusNameAcquired called
+179281 2024/07/02 07:17:26.068676 6724.2029 76 CCIC PESV PESV 98793 log info verbose 1 [dbus_player_service.cpp:364][OnDBusNameAcquired] player-engine skeleton failed, [An object is already exported for the interface com.lge.PlayerEngine at /com/lge/PlayerEngine]
+179286 2024/07/02 07:17:26.068813 6724.2033 241 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:1183][operator()] P_Stub_PID=[1414]
+179285 2024/07/02 07:17:26.068789 6724.2033 240 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:1182][operator()] Child PID=[1414], Default PID=[0]
+179284 2024/07/02 07:17:26.068770 6724.2033 239 CCIC MMSV MMSV 1150 log warn verbose 1 [main.cpp:1179][operator()] Cannot connecting to org.genivi.mediamanager.Player : Failed to connect, is com.lge.PlayerEngine running?
+179282 2024/07/02 07:17:26.068720 6724.2033 238 CCIC MMSV MMSV 1150 log error verbose 1 [serviceprovider.cpp:31][onNameVanished] Failed to get name owner for com.lge.PlayerEngine
+179299 2024/07/02 07:17:26.109188 6724.2100 244 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:1161][operator()] PlayerEngine name appeared in the Dbus
+179298 2024/07/02 07:17:26.109171 6724.2100 243 CCIC MMSV MMSV 1150 log info verbose 1 [serviceprovider.cpp:21][onNameAppeared] Found com.lge.PlayerEngine on D-Bus
+179297 2024/07/02 07:17:26.109148 6724.2100 242 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:301][isDefaultConnectionNameExist] ## find OK && return true [:1.5][1414]
+179311 2024/07/02 07:17:26.111129 6724.2124 227 CCIC VA DBG 2695 log error verbose 1 obtainFocus for tts 1
+179310 2024/07/02 07:17:26.111113 6724.2124 226 CCIC VA DBG 2695 log info verbose 1 obtainFocusImpl : 1
+179309 2024/07/02 07:17:26.111078 6724.2124 225 CCIC VA DBG 2695 log error verbose 1 request ending beep
+179308 2024/07/02 07:17:26.110156 6724.2124 224 CCIC VA DBG 2695 log info verbose 1 hasNaviAudioFocus() Focused audio sources count: 3
+179331 2024/07/02 07:17:26.111574 6724.2162 233 CCIC VA DBG 2695 log error verbose 1 Call obtainFocus(sourceType: 1090519042, FRONT)
+179330 2024/07/02 07:17:26.111559 6724.2162 232 CCIC VA DBG 2695 log info verbose 1 source[2]: 1075838984
+179329 2024/07/02 07:17:26.111544 6724.2162 231 CCIC VA DBG 2695 log info verbose 1 source[1]: 536936450
+179328 2024/07/02 07:17:26.111529 6724.2162 230 CCIC VA DBG 2695 log info verbose 1 source[0]: 1090519049
+179327 2024/07/02 07:17:26.111513 6724.2162 229 CCIC VA DBG 2695 log info verbose 1 Focused audio sources count: 3
+179326 2024/07/02 07:17:26.111498 6724.2162 228 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+179418 2024/07/02 07:17:26.114256 6724.2206 234 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 213
+179420 2024/07/02 07:17:26.114287 6724.2207 236 CCIC VA DBG 2695 log error verbose 1 current url size : 0
+179419 2024/07/02 07:17:26.114271 6724.2207 235 CCIC VA DBG 2695 log error verbose 1 onPlayingStateChanged : state HMediaPlayingState::STOPPED
+179425 2024/07/02 07:17:26.114469 6724.2213 238 CCIC VA DBG 2695 log error verbose 1 -> Client Status MAX Queue size: 0
+179424 2024/07/02 07:17:26.114350 6724.2213 237 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: DISCONNECTED, result:
+179480 2024/07/02 07:17:26.115511 6724.2255 239 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: LOSS)
+179482 2024/07/02 07:17:26.115541 6724.2256 240 CCIC VA DBG 2695 log info verbose 1 setVRAssistantStatus
+179537 2024/07/02 07:17:26.117987 6724.2307 241 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: AM, device: SPEAKER, status: PENDING)
+179920 2024/07/02 07:17:26.132604 6724.2691 242 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: PENDING)
+180097 2024/07/02 07:17:26.161577 6724.2907 243 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_TTS, device: SPEAKER, status: GET)
+180098 2024/07/02 07:17:26.161596 6724.2908 244 CCIC VA DBG 2695 log error verbose 1 onAudioFocusObtained.size() 0
+180351 2024/07/02 07:17:26.185190 6724.3182 245 CCIC VA DBG 2695 log error verbose 1 onAudioPathChanged status -> [CONNECTED]
+180353 2024/07/02 07:17:26.185227 6724.3183 247 CCIC VA DBG 2695 log error verbose 1 void VAWorker1::onRequestEndingBeep()
+180352 2024/07/02 07:17:26.185208 6724.3183 246 CCIC VA DBG 2695 log info verbose 1 setAudioPathStatus status[1]
+180355 2024/07/02 07:17:26.185263 6724.3184 249 CCIC VA DBG 2695 log info verbose 1 promptText:
+180354 2024/07/02 07:17:26.185245 6724.3184 248 CCIC VA DBG 2695 log info verbose 1 [VR-HUD] VAClusterHudService::vrRequestUpdateVRStateApp enum state_update, end
+180541 2024/07/02 07:17:26.233895 6724.3697 255 CCIC VA DBG 2695 log error verbose 1 }
+180540 2024/07/02 07:17:26.233877 6724.3697 254 CCIC VA DBG 2695 log error verbose 1 "va_state": "IDLE"
+180539 2024/07/02 07:17:26.233822 6724.3697 253 CCIC VA DBG 2695 log error verbose 1 "va_domain": "",
+180538 2024/07/02 07:17:26.233805 6724.3697 252 CCIC VA DBG 2695 log error verbose 1 "va_content": "none",
+180537 2024/07/02 07:17:26.233788 6724.3697 251 CCIC VA DBG 2695 log error verbose 1 jsonString: {
+180536 2024/07/02 07:17:26.233770 6724.3697 250 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: VRAssistantStatus
+180585 2024/07/02 07:17:26.254681 6724.3803 1 CCIC VA DBG 2695 log info verbose 1 Focused audio sources count: 3
+180584 2024/07/02 07:17:26.254665 6724.3803 0 CCIC VA DBG 2695 log info verbose 1 ==============
+180599 2024/07/02 07:17:26.254912 6724.3833 7 CCIC VA DBG 2695 log error verbose 1 "domain": "basic",
+180598 2024/07/02 07:17:26.254895 6724.3833 6 CCIC VA DBG 2695 log error verbose 1 "cmd": "state_update",
+180597 2024/07/02 07:17:26.254879 6724.3833 5 CCIC VA DBG 2695 log error verbose 1 "character": "ryan",
+180596 2024/07/02 07:17:26.254864 6724.3833 4 CCIC VA DBG 2695 log error verbose 1 "data": {
+180595 2024/07/02 07:17:26.254848 6724.3833 3 CCIC VA DBG 2695 log error verbose 1 data: {
+180594 2024/07/02 07:17:26.254832 6724.3833 2 CCIC VA DBG 2695 log error verbose 1 sendMessage(targetAppId: ccos.sys.ecumanager, msgID: 2567)
+180617 2024/07/02 07:17:26.255518 6724.3834 25 CCIC VA DBG 2695 log error verbose 1 }
+180616 2024/07/02 07:17:26.255503 6724.3834 24 CCIC VA DBG 2695 log error verbose 1 "version": "1.0"
+180615 2024/07/02 07:17:26.255487 6724.3834 23 CCIC VA DBG 2695 log error verbose 1 "service_type": "HUD",
+180614 2024/07/02 07:17:26.255470 6724.3834 22 CCIC VA DBG 2695 log error verbose 1 "msg_comm_type": "1:1",
+180613 2024/07/02 07:17:26.255454 6724.3834 21 CCIC VA DBG 2695 log error verbose 1 },
+180612 2024/07/02 07:17:26.255436 6724.3834 20 CCIC VA DBG 2695 log error verbose 1 }
+180611 2024/07/02 07:17:26.255414 6724.3834 19 CCIC VA DBG 2695 log error verbose 1 "wave_enable": "enabled"
+180610 2024/07/02 07:17:26.255351 6724.3834 18 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+180609 2024/07/02 07:17:26.255333 6724.3834 17 CCIC VA DBG 2695 log error verbose 1 "level": 3,
+180608 2024/07/02 07:17:26.255315 6724.3834 16 CCIC VA DBG 2695 log error verbose 1 "wave_form": {
+180607 2024/07/02 07:17:26.255297 6724.3834 15 CCIC VA DBG 2695 log error verbose 1 "vui_type": "a",
+180606 2024/07/02 07:17:26.255278 6724.3834 14 CCIC VA DBG 2695 log error verbose 1 "state": "end",
+180605 2024/07/02 07:17:26.255039 6724.3834 13 CCIC VA DBG 2695 log error verbose 1 },
+180604 2024/07/02 07:17:26.255017 6724.3834 12 CCIC VA DBG 2695 log error verbose 1 "prompt_string": ""
+180603 2024/07/02 07:17:26.254980 6724.3834 11 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+180602 2024/07/02 07:17:26.254964 6724.3834 10 CCIC VA DBG 2695 log error verbose 1 "prompt": {
+180601 2024/07/02 07:17:26.254947 6724.3834 9 CCIC VA DBG 2695 log error verbose 1 "kakao_state": 0,
+180600 2024/07/02 07:17:26.254929 6724.3834 8 CCIC VA DBG 2695 log error verbose 1 "kakao_enable": 0,
+181330 2024/07/02 07:17:26.532253 6724.6686 27 CCIC VA DBG 2695 log error verbose 1 mStatusQueue.size() is 0. Cleared by other events to force stop!!!
+181329 2024/07/02 07:17:26.532192 6724.6686 26 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: RESPONSE_OK, result: {"linkInstruction":"link","vrActionResultList":null}
+181331 2024/07/02 07:17:26.533736 6724.6701 28 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: TIME_OUT, result:
+181332 2024/07/02 07:17:26.533814 6724.6702 29 CCIC VA DBG 2695 log error verbose 1 mStatusQueue.size() is 0. Cleared by other events to force stop!!!
+181561 2024/07/02 07:17:26.575291 6724.7089 31 CCIC VA DBG 2695 log error verbose 1 jsonString: {"appid":"ccos.hmi.navigation.center-front","intent":"SCENEID_MAP_FULL","layout":0}
+181560 2024/07/02 07:17:26.575275 6724.7089 30 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: PrepareStatus.center-front
+181563 2024/07/02 07:17:26.575323 6724.7091 32 CCIC VA DBG 2695 log error verbose 1 ignore screen change event
+182597 2024/07/02 07:17:26.750859 6724.8796 34 CCIC VA DBG 2695 log error verbose 1 jsonString: {"appid":"ccos.hmi.navigation.center-front","disp":false,"intent":"SCENEID_MAP_FULL","layout":0}
+182595 2024/07/02 07:17:26.750828 6724.8796 33 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: ScreenStatus.center-front
+182603 2024/07/02 07:17:26.750951 6724.8797 38 CCIC VA DBG 2695 log error verbose 1 doTaskVRScreenHided::do not anything
+182602 2024/07/02 07:17:26.750935 6724.8797 37 CCIC VA DBG 2695 log error verbose 1 void VASoundHoundManager::doTaskVRScreenHided(),
+182601 2024/07/02 07:17:26.750920 6724.8797 36 CCIC VA DBG 2695 log error verbose 1 doTaskVRScreenHided::do not anything
+182600 2024/07/02 07:17:26.750905 6724.8797 35 CCIC VA DBG 2695 log error verbose 1 void VAKakaoAnnounceManager::doTaskVRScreenHided(),
+182607 2024/07/02 07:17:26.751013 6724.8801 40 CCIC VA DBG 2695 log error verbose 1 jsonString: {"vr_domain":"none","vr_state":"IDLE"}
+182606 2024/07/02 07:17:26.750997 6724.8801 39 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: VRStatus
+182978 2024/07/02 07:17:26.799610 6724.9341 41 CCIC VA DBG 2695 log error verbose 1 write end 512
+182979 2024/07/02 07:17:26.799670 6724.9342 42 CCIC VA DBG 2695 log info verbose 1 close result 0
+183063 2024/07/02 07:17:26.851306 6724.9874 43 CCIC VA DBG 2695 log error verbose 1 void VAAudioManager::onFinished()
+183674 2024/07/02 07:17:26.929885 6725.0517 44 CCIC VA DBG 2695 log info verbose 1 Audio focus release(213): 0
+183742 2024/07/02 07:17:26.931277 6725.0664 45 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_TTS, device: SPEAKER, status: LOSS)
+183745 2024/07/02 07:17:26.931334 6725.0665 48 CCIC VA DBG 2695 log info verbose 1 setVRAssistantStatus
+183744 2024/07/02 07:17:26.931319 6725.0665 47 CCIC VA DBG 2695 log info verbose 1 setAudioPathStatus status[0]
+183743 2024/07/02 07:17:26.931303 6725.0665 46 CCIC VA DBG 2695 log error verbose 1 onAudioFocusObtained.size() 0
+183932 2024/07/02 07:17:26.975033 6725.0998 50 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: UNPENDING)
+183931 2024/07/02 07:17:26.975018 6725.0998 49 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: AM, device: SPEAKER, status: UNPENDING)
+183934 2024/07/02 07:17:26.975066 6725.0999 52 CCIC VA DBG 2695 log info verbose 1 Focus ID is 0
+183933 2024/07/02 07:17:26.975049 6725.0999 51 CCIC VA DBG 2695 log error verbose 1 onAudioPathChanged status -> [DISCONNECTED]
+184002 2024/07/02 07:17:27.015800 6725.1521 53 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: VRAssistantStatus
+184007 2024/07/02 07:17:27.015910 6725.1522 58 CCIC VA DBG 2695 log error verbose 1 }
+184006 2024/07/02 07:17:27.015895 6725.1522 57 CCIC VA DBG 2695 log error verbose 1 "va_state": "IDLE"
+184005 2024/07/02 07:17:27.015879 6725.1522 56 CCIC VA DBG 2695 log error verbose 1 "va_domain": "",
+184004 2024/07/02 07:17:27.015861 6725.1522 55 CCIC VA DBG 2695 log error verbose 1 "va_content": "none",
+184003 2024/07/02 07:17:27.015816 6725.1522 54 CCIC VA DBG 2695 log error verbose 1 jsonString: {
+
+
+=========================================================================================================================================================================
+
+
+
+164569 2024/07/02 07:17:16.886534 6715.0043 70 CCIC VA DBG 2695 log error verbose 1 jsonString: {"av":"radio","play_status":"stop","seat":"driver"}
+164568 2024/07/02 07:17:16.886518 6715.0043 69 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: AvPlayStatus
+165444 2024/07/02 07:17:17.011627 6715.1449 72 CCIC VA DBG 2695 log error verbose 1 jsonString: {"vr_domain":"main","vr_state":"RECOGNIZING"}
+165443 2024/07/02 07:17:17.011605 6715.1449 71 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: VRStatus
+167443 2024/07/02 07:17:17.932538 6716.0690 73 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: ScreenStatus.center-front
+167444 2024/07/02 07:17:17.932555 6716.0691 74 CCIC VA DBG 2695 log error verbose 1 jsonString: {"appid":"ccos.hmi.vr.center-front","disp":false,"intent":"main","keySource":"swrc","keyType":"ptt","layout":0}
+172668 2024/07/02 07:17:21.312961 6719.4298 75 CCIC VA DBG 2695 log info verbose 1 onMessageRecieved(sender: ccos.hmi.vr.center-front, msgID: APP_REQUEST_ACTION, preparing: 0)
+172669 2024/07/02 07:17:21.312977 6719.4301 76 CCIC VA DBG 2695 log error verbose 1 received jsonData: {"command":"mediaPlay","cp":"kakao","osdText":"음성 안내 중입니다. 핸들의 [★] 버튼을 눌러 종료할 수 있습니다.","prevLayout":0,"topic":"weather","tts":{"mediaURL":"http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3","text":"현재 신길동은 비가 와요. 이후 오전 11시에는 비가 오고, 오후 4시에는 흐리겠어요. 기온은 22도에서 26도예요. 미세먼지 농도는 좋음이에요. 우산 챙기는 거 잊지 마세요.","token":"shadow//21556e59-2597-47be-8a95-b7802a4c61af"},"urlArray":null}
+172673 2024/07/02 07:17:21.313039 6719.4302 80 CCIC VA DBG 2695 log error verbose 1 "command": "mediaPlay",
+172672 2024/07/02 07:17:21.313024 6719.4302 79 CCIC VA DBG 2695 log error verbose 1 {
+172671 2024/07/02 07:17:21.313009 6719.4302 78 CCIC VA DBG 2695 log error verbose 1 iac message received from VR
+172670 2024/07/02 07:17:21.312993 6719.4302 77 CCIC VA DBG 2695 log info verbose 1 [VAClusterHudService]initState()
+172682 2024/07/02 07:17:21.313211 6719.4303 89 CCIC VA DBG 2695 log error verbose 1 },
+172681 2024/07/02 07:17:21.313181 6719.4303 88 CCIC VA DBG 2695 log error verbose 1 "token": "shadow//21556e59-2597-47be-8a95-b7802a4c61af"
+172680 2024/07/02 07:17:21.313166 6719.4303 87 CCIC VA DBG 2695 log error verbose 1 "text": "현재 신길동은 비가 와요. 이후 오전 11시에는 비가 오고, 오후 4시에는 흐리겠어요. 기온은 22도에서 26도예요. 미세먼지 농도는 좋음이에요. 우산 챙기는 거 잊지 마세요.",
+172679 2024/07/02 07:17:21.313150 6719.4303 86 CCIC VA DBG 2695 log error verbose 1 "mediaURL": "http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3",
+172678 2024/07/02 07:17:21.313135 6719.4303 85 CCIC VA DBG 2695 log error verbose 1 "tts": {
+172677 2024/07/02 07:17:21.313120 6719.4303 84 CCIC VA DBG 2695 log error verbose 1 "topic": "weather",
+172676 2024/07/02 07:17:21.313103 6719.4303 83 CCIC VA DBG 2695 log error verbose 1 "prevLayout": 0,
+172675 2024/07/02 07:17:21.313069 6719.4303 82 CCIC VA DBG 2695 log error verbose 1 "osdText": "음성 안내 중입니다. 핸들의 [★] 버튼을 눌러 종료할 수 있습니다.",
+172674 2024/07/02 07:17:21.313054 6719.4303 81 CCIC VA DBG 2695 log error verbose 1 "cp": "kakao",
+172695 2024/07/02 07:17:21.313467 6719.4326 92 CCIC VA DBG 2695 log info verbose 1 setVRAssistantStatus
+172694 2024/07/02 07:17:21.313452 6719.4326 91 CCIC VA DBG 2695 log error verbose 1 }
+172693 2024/07/02 07:17:21.313436 6719.4326 90 CCIC VA DBG 2695 log error verbose 1 "urlArray": null
+172706 2024/07/02 07:17:21.313649 6719.4336 95 CCIC VA DBG 2695 log error verbose 1 obtainFocus for tts 0
+172703 2024/07/02 07:17:21.313601 6719.4336 94 CCIC VA DBG 2695 log info verbose 1 obtainFocusImpl : 0
+172699 2024/07/02 07:17:21.313529 6719.4336 93 CCIC VA DBG 2695 log error verbose 1 setAnnounceStatus(PrepareToObtainStreamingFocus)
+172754 2024/07/02 07:17:21.342632 6719.4548 101 CCIC VA DBG 2695 log error verbose 1 Call obtainFocus(sourceType: 1090519049, FRONT)
+172753 2024/07/02 07:17:21.342575 6719.4548 100 CCIC VA DBG 2695 log info verbose 1 source[2]: 1075838984
+172752 2024/07/02 07:17:21.342559 6719.4548 99 CCIC VA DBG 2695 log info verbose 1 source[1]: 536936450
+172751 2024/07/02 07:17:21.342543 6719.4548 98 CCIC VA DBG 2695 log info verbose 1 source[0]: 1075838977
+172750 2024/07/02 07:17:21.342494 6719.4548 97 CCIC VA DBG 2695 log info verbose 1 Focused audio sources count: 3
+172749 2024/07/02 07:17:21.339424 6719.4548 96 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+172867 2024/07/02 07:17:21.346048 6719.4699 102 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 212
+172876 2024/07/02 07:17:21.346189 6719.4703 108 CCIC VA DBG 2695 log error verbose 1 }
+172875 2024/07/02 07:17:21.346173 6719.4703 107 CCIC VA DBG 2695 log error verbose 1 "va_state": "RENDERING_CONTENT"
+172874 2024/07/02 07:17:21.346158 6719.4703 106 CCIC VA DBG 2695 log error verbose 1 "va_domain": "weather",
+172873 2024/07/02 07:17:21.346142 6719.4703 105 CCIC VA DBG 2695 log error verbose 1 "va_content": "weather",
+172872 2024/07/02 07:17:21.346127 6719.4703 104 CCIC VA DBG 2695 log error verbose 1 jsonString: {
+172871 2024/07/02 07:17:21.346111 6719.4703 103 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: VRAssistantStatus
+173238 2024/07/02 07:17:21.360312 6719.4843 112 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: AM, device: SPEAKER, status: PENDING)
+173237 2024/07/02 07:17:21.360284 6719.4843 111 CCIC VA DBG 2695 log info verbose 1 onAudioFocusObtained.size() 1 onVRAudioFocusReleased.size() 0
+173236 2024/07/02 07:17:21.360267 6719.4843 110 CCIC VA DBG 2695 log info verbose 1 VR AudioFocus released
+173235 2024/07/02 07:17:21.360251 6719.4843 109 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HU_VR, device: SPEAKER, status: LOSS)
+173239 2024/07/02 07:17:21.360328 6719.4844 113 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: GET)
+173376 2024/07/02 07:17:21.377052 6719.5130 115 CCIC VA DBG 2695 log error verbose 1 stopTimer!
+173375 2024/07/02 07:17:21.377034 6719.5130 114 CCIC VA DBG 2695 log error verbose 1 VAPlayStatusNotifier::clearTask
+173384 2024/07/02 07:17:21.377189 6719.5131 120 CCIC VA DBG 2695 log info verbose 1 Set by replacing state [speaking] with [end]
+173383 2024/07/02 07:17:21.377172 6719.5131 119 CCIC VA DBG 2695 log info verbose 1 promptText:
+173381 2024/07/02 07:17:21.377138 6719.5131 118 CCIC VA DBG 2695 log info verbose 1 [VR-HUD] VAClusterHudService::vrRequestUpdateVRStateApp enum state_update, speaking
+173380 2024/07/02 07:17:21.377121 6719.5131 117 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : url array size for audio play : 1
+173378 2024/07/02 07:17:21.377086 6719.5131 116 CCIC VA DBG 2695 log info verbose 1 synthesizer mediaURL : [http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3]
+173397 2024/07/02 07:17:21.377551 6719.5134 128 CCIC VA DBG 2695 log error verbose 1 "kakao_state": 0,
+173396 2024/07/02 07:17:21.377535 6719.5134 127 CCIC VA DBG 2695 log error verbose 1 "kakao_enable": 0,
+173395 2024/07/02 07:17:21.377519 6719.5134 126 CCIC VA DBG 2695 log error verbose 1 "domain": "weather",
+173394 2024/07/02 07:17:21.377501 6719.5134 125 CCIC VA DBG 2695 log error verbose 1 "cmd": "state_update",
+173393 2024/07/02 07:17:21.377485 6719.5134 124 CCIC VA DBG 2695 log error verbose 1 "character": "ryan",
+173392 2024/07/02 07:17:21.377461 6719.5134 123 CCIC VA DBG 2695 log error verbose 1 "data": {
+173391 2024/07/02 07:17:21.377352 6719.5134 122 CCIC VA DBG 2695 log error verbose 1 data: {
+173390 2024/07/02 07:17:21.377333 6719.5134 121 CCIC VA DBG 2695 log error verbose 1 sendMessage(targetAppId: ccos.sys.ecumanager, msgID: 2567)
+173413 2024/07/02 07:17:21.377853 6719.5135 144 CCIC VA DBG 2695 log error verbose 1 }
+173412 2024/07/02 07:17:21.377836 6719.5135 143 CCIC VA DBG 2695 log error verbose 1 "version": "1.0"
+173411 2024/07/02 07:17:21.377817 6719.5135 142 CCIC VA DBG 2695 log error verbose 1 "service_type": "HUD",
+173410 2024/07/02 07:17:21.377780 6719.5135 141 CCIC VA DBG 2695 log error verbose 1 "msg_comm_type": "1:1",
+173409 2024/07/02 07:17:21.377763 6719.5135 140 CCIC VA DBG 2695 log error verbose 1 },
+173408 2024/07/02 07:17:21.377747 6719.5135 139 CCIC VA DBG 2695 log error verbose 1 }
+173407 2024/07/02 07:17:21.377730 6719.5135 138 CCIC VA DBG 2695 log error verbose 1 "wave_enable": "enabled"
+173406 2024/07/02 07:17:21.377715 6719.5135 137 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+173405 2024/07/02 07:17:21.377698 6719.5135 136 CCIC VA DBG 2695 log error verbose 1 "level": 3,
+173404 2024/07/02 07:17:21.377681 6719.5135 135 CCIC VA DBG 2695 log error verbose 1 "wave_form": {
+173403 2024/07/02 07:17:21.377659 6719.5135 134 CCIC VA DBG 2695 log error verbose 1 "vui_type": "a",
+173402 2024/07/02 07:17:21.377632 6719.5135 133 CCIC VA DBG 2695 log error verbose 1 "state": "end",
+173401 2024/07/02 07:17:21.377616 6719.5135 132 CCIC VA DBG 2695 log error verbose 1 },
+173400 2024/07/02 07:17:21.377600 6719.5135 131 CCIC VA DBG 2695 log error verbose 1 "prompt_string": ""
+173399 2024/07/02 07:17:21.377585 6719.5135 130 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+173398 2024/07/02 07:17:21.377568 6719.5135 129 CCIC VA DBG 2695 log error verbose 1 "prompt": {
+173416 2024/07/02 07:17:21.377904 6719.5138 145 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : call url play
+173418 2024/07/02 07:17:21.377937 6719.5139 230 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) setURL:739 : called setURL(13) : [http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3]
+173417 2024/07/02 07:17:21.377921 6719.5139 146 CCIC VA DBG 2695 log info verbose 1 urlPlay
+173422 2024/07/02 07:17:21.378002 6719.5141 231 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) load:878 : channel info(0), 2ch_down=[false]
+173420 2024/07/02 07:17:21.377970 6719.5141 147 CCIC VA DBG 2695 log error verbose 1 setURL(http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3) -> 0
+173824 2024/07/02 07:17:21.451100 6719.5531 233 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] load:1213 Setting media_type [13]
+173823 2024/07/02 07:17:21.451079 6719.5531 232 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) load:928 : ret=[0], Available slot=[1]
+173883 2024/07/02 07:17:21.452329 6719.5825 170 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:715][checkValidMediaId] last_fail_id=[0]
+173882 2024/07/02 07:17:21.452313 6719.5825 169 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:180][openUri] Creating PE for multi instance, type=[13], saved_id=[0], pe_cnt=[3]
+173881 2024/07/02 07:17:21.452296 6719.5825 168 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:126][openUri] load contents.. channels=[2]
+173884 2024/07/02 07:17:21.452346 6719.5827 171 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:48][createPlayerEngine] launch PlayerEngine: playerservice [/usr/bin/playerservice]
+173885 2024/07/02 07:17:21.452401 6719.5863 172 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:59][createPlayerEngine] PlayerEngine process 231768 created
+174000 2024/07/02 07:17:21.490831 6719.6228 7 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:85][MediaPlayer]
+173999 2024/07/02 07:17:21.490816 6719.6228 6 CCIC PESV PESV 231768 log info verbose 1 [audio_controller.cpp:24][AudioController]
+173998 2024/07/02 07:17:21.490800 6719.6228 5 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_main.cpp:167][ShowVerionInfo] ==============================================
+173997 2024/07/02 07:17:21.490784 6719.6228 4 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_main.cpp:166][ShowVerionInfo] Build Date : 00:00:00 Jan 1 1970
+173996 2024/07/02 07:17:21.490766 6719.6228 3 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_main.cpp:165][ShowVerionInfo] Commit Date : Tue Jun 11 10:16:59 2024
+173995 2024/07/02 07:17:21.490615 6719.6228 2 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_main.cpp:164][ShowVerionInfo] Reference Version : submissions/ccic.157
+173994 2024/07/02 07:17:21.490596 6719.6228 1 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_main.cpp:163][ShowVerionInfo] PlayerEngine[Multi] S/W Info : Leopard v3.0
+173993 2024/07/02 07:17:21.490553 6719.6228 0 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_main.cpp:162][ShowVerionInfo] ==============================================
+174002 2024/07/02 07:17:21.490881 6719.6229 9 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:126][ParsePipelineType] media_type[0]
+174001 2024/07/02 07:17:21.490847 6719.6229 8 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:92][ParsePipelineType] return media type is [0]
+174004 2024/07/02 07:17:21.490916 6719.6237 10 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_audio[1]
+174015 2024/07/02 07:17:21.491090 6719.6238 21 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_gst_dot[0]
+174014 2024/07/02 07:17:21.491074 6719.6238 20 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_mjpeg[0]
+174013 2024/07/02 07:17:21.491059 6719.6238 19 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_dolby_atmos[1]
+174012 2024/07/02 07:17:21.491043 6719.6238 18 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_multi_channel[1]
+174011 2024/07/02 07:17:21.491027 6719.6238 17 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_caching[1]
+174010 2024/07/02 07:17:21.491012 6719.6238 16 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_subtitle[1]
+174009 2024/07/02 07:17:21.490995 6719.6238 15 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_divx[0]
+174008 2024/07/02 07:17:21.490980 6719.6238 14 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_realmedia[0]
+174007 2024/07/02 07:17:21.490964 6719.6238 13 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_thumbnail[1]
+174006 2024/07/02 07:17:21.490948 6719.6238 12 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_deck[0]
+174005 2024/07/02 07:17:21.490932 6719.6238 11 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_video[1]
+174017 2024/07/02 07:17:21.491120 6719.6239 23 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_hardware_vol[1]
+174016 2024/07/02 07:17:21.491105 6719.6239 22 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:534][LoadSupportedFeature] support_lyrics[0]
+174021 2024/07/02 07:17:21.491186 6719.6244 27 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:809][LoadThumbnail] thumb_width_: 160
+174020 2024/07/02 07:17:21.491169 6719.6244 26 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:804][LoadThumbnail] thumb_format_: png
+174019 2024/07/02 07:17:21.491154 6719.6244 25 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:799][LoadThumbnail] thumb_download_path: /rw_data/service/thumbnail-extractor/media-manager-thumbnail/thumbnail
+174018 2024/07/02 07:17:21.491137 6719.6244 24 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:771][LoadDebug] GST_DEBUG=[*:2,eglwaylandsink:5,surfmixer:5,vopdsrc:2,matroskademux:1,vohlssrc:5], GST_DOT=[0], GST_REGTRY_PATH=[/home/root/.cache/gstreamer-1.0/registry.aarch64.bin]
+174035 2024/07/02 07:17:21.491748 6719.6245 41 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:960][LoadVolumeType] volume_dvrs: dvrs_vol
+174034 2024/07/02 07:17:21.491732 6719.6245 40 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:955][LoadVolumeType] volume_genesis: genesis_music_vol
+174033 2024/07/02 07:17:21.491713 6719.6245 39 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:950][LoadVolumeType] volume_welaaa: welaaa_vol
+174032 2024/07/02 07:17:21.491694 6719.6245 38 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:945][LoadVolumeType] volume_tencent_mini_app_video: tencent_video_vol
+174031 2024/07/02 07:17:21.491677 6719.6245 37 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:940][LoadVolumeType] volume_tencent_mini_app_audio: tencent_video_vol
+174030 2024/07/02 07:17:21.491659 6719.6245 36 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:935][LoadVolumeType] volume_tencent_funaudio: tencent_audio_vol
+174029 2024/07/02 07:17:21.491642 6719.6245 35 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:920][LoadVolumeType] volume_kids_video: kids_vol
+174028 2024/07/02 07:17:21.491623 6719.6245 34 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:915][LoadVolumeType] volume_mood_therapy: mood_audio_vol
+174027 2024/07/02 07:17:21.491596 6719.6245 33 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:910][LoadVolumeType] volume_manual: manual_vol
+174026 2024/07/02 07:17:21.491339 6719.6245 32 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:905][LoadVolumeType] volume_ximalaya: ximalaya_vol
+174025 2024/07/02 07:17:21.491322 6719.6245 31 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:895][LoadVolumeType] volume_kakao_i3: kakaoi_vol
+174024 2024/07/02 07:17:21.491306 6719.6245 30 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:890][LoadVolumeType] volume_kakao_i2: kakaoi_vol
+174023 2024/07/02 07:17:21.491285 6719.6245 29 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:885][LoadVolumeType] volume_kakao_i: kakaoi_vol
+174022 2024/07/02 07:17:21.491202 6719.6245 28 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:865][LoadVolumeType] volume_nature_sound: nature_vol
+174052 2024/07/02 07:17:21.492561 6719.6246 57 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1080][LoadAlsaDeviceType] alsa_mood_therapy: moodtherapy
+174051 2024/07/02 07:17:21.492545 6719.6246 56 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1075][LoadAlsaDeviceType] alsa_manual: manual
+174050 2024/07/02 07:17:21.492520 6719.6246 55 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1070][LoadAlsaDeviceType] alsa_ximalaya: ximalaya
+174049 2024/07/02 07:17:21.492353 6719.6246 54 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1065][LoadAlsaDeviceType] alsa_genie: genie
+174048 2024/07/02 07:17:21.492238 6719.6246 53 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1060][LoadAlsaDeviceType] alsa_kakao_i3: kakaoi
+174047 2024/07/02 07:17:21.492123 6719.6246 52 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1055][LoadAlsaDeviceType] alsa_kakao_i2: kakaoi
+174046 2024/07/02 07:17:21.492108 6719.6246 51 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1050][LoadAlsaDeviceType] alsa_kakao_i: kakaoi
+174045 2024/07/02 07:17:21.492091 6719.6246 50 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1045][LoadAlsaDeviceType] alsa_qq_music: qq
+174044 2024/07/02 07:17:21.492074 6719.6246 49 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1040][LoadAlsaDeviceType] alsa_melon: melon
+174043 2024/07/02 07:17:21.492057 6719.6246 48 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1035][LoadAlsaDeviceType] alsa_kaola_fm: kaola
+174042 2024/07/02 07:17:21.492039 6719.6246 47 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1030][LoadAlsaDeviceType] alsa_nature_sound: nature
+174041 2024/07/02 07:17:21.492013 6719.6246 46 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1015][LoadAlsaDeviceType] alsa_usb_video: usb_video
+174040 2024/07/02 07:17:21.491975 6719.6246 45 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1010][LoadAlsaDeviceType] alsa_usb_audio: usb_audio
+174039 2024/07/02 07:17:21.491959 6719.6246 44 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:975][LoadVolumeType] volume_hardware: name=RX
+174038 2024/07/02 07:17:21.491936 6719.6246 43 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:970][LoadVolumeType] volume_5_1_channel: 6channel_dts_vol
+174037 2024/07/02 07:17:21.491870 6719.6246 42 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:965][LoadVolumeType] volume_face_detection: faceid_vol
+174054 2024/07/02 07:17:21.492595 6719.6247 59 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1090][LoadAlsaDeviceType] alsa_podbbang: podbbang
+174053 2024/07/02 07:17:21.492578 6719.6247 58 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1085][LoadAlsaDeviceType] alsa_kids_video: kids
+174067 2024/07/02 07:17:21.493205 6719.6249 71 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1153][LoadSurfaceId] surface id for golf_video : 10001
+174066 2024/07/02 07:17:21.493186 6719.6249 70 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1148][LoadSurfaceId] surface id for video_2nd : 10000
+174065 2024/07/02 07:17:21.493058 6719.6249 69 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1143][LoadSurfaceId] surface id for video : 10000
+174064 2024/07/02 07:17:21.492762 6719.6249 68 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1135][LoadAlsaDeviceType] alsa_5_1_channel: 6channel_dts
+174063 2024/07/02 07:17:21.492746 6719.6249 67 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1130][LoadAlsaDeviceType] alsa_face_detection: faceid
+174062 2024/07/02 07:17:21.492729 6719.6249 66 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1125][LoadAlsaDeviceType] alsa_dvrs: dvrs
+174061 2024/07/02 07:17:21.492712 6719.6249 65 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1120][LoadAlsaDeviceType] alsa_genesis: genesis_music
+174060 2024/07/02 07:17:21.492695 6719.6249 64 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1115][LoadAlsaDeviceType] alsa_welaaa: welaaa
+174059 2024/07/02 07:17:21.492680 6719.6249 63 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1110][LoadAlsaDeviceType] alsa_tencent_mini_app_video: tencent_video
+174058 2024/07/02 07:17:21.492662 6719.6249 62 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1105][LoadAlsaDeviceType] alsa_tencent_mini_app_audio: tencent_video
+174057 2024/07/02 07:17:21.492646 6719.6249 61 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1100][LoadAlsaDeviceType] alsa_tencent_funaudio: tencent_audio
+174056 2024/07/02 07:17:21.492629 6719.6249 60 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1095][LoadAlsaDeviceType] alsa_vibe: vibe
+174073 2024/07/02 07:17:21.494422 6719.6250 77 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1183][LoadSurfaceId] surface id for dvrs_rear : 120002
+174072 2024/07/02 07:17:21.494403 6719.6250 76 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1178][LoadSurfaceId] surface id for dvrs_front : 120001
+174071 2024/07/02 07:17:21.494328 6719.6250 75 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1173][LoadSurfaceId] surface id for recording_play : 140002
+174070 2024/07/02 07:17:21.493814 6719.6250 74 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1168][LoadSurfaceId] surface id for kids_video : 10002
+174069 2024/07/02 07:17:21.493797 6719.6250 73 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1163][LoadSurfaceId] surface id for mood_therapy_video : 140001
+174068 2024/07/02 07:17:21.493769 6719.6250 72 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1158][LoadSurfaceId] surface id for manual_video : 140000
+174074 2024/07/02 07:17:21.494440 6719.6251 78 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:1188][LoadSurfaceId] surface id for tencent : 10000
+174079 2024/07/02 07:17:21.494612 6719.6252 83 CCIC PESV PESV 231768 log info verbose 1 [keep_alive.cpp:72][Loop] Loop
+174078 2024/07/02 07:17:21.494597 6719.6252 82 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:373][Run] g_main_loop_new called
+174077 2024/07/02 07:17:21.494580 6719.6252 81 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:62][DBusPlayerService] DBusPlayerService
+174076 2024/07/02 07:17:21.494564 6719.6252 80 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:101][MediaPlayer] Created MediaPlayer
+174075 2024/07/02 07:17:21.494540 6719.6252 79 CCIC PESV PESV 231768 log info verbose 1 [keep_alive.cpp:29][KeepAlive]
+174081 2024/07/02 07:17:21.494647 6719.6264 84 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:386][Run] g_bus_own_name called, id[1]
+174157 2024/07/02 07:17:21.508894 6719.6453 85 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:340][OnBusNameAcquired] OnBusNameAcquired called, name[com.lge.PlayerEngine]
+174161 2024/07/02 07:17:21.510834 6719.6473 176 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:1183][operator()] P_Stub_PID=[1414]
+174160 2024/07/02 07:17:21.510818 6719.6473 175 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:1182][operator()] Child PID=[1414], Default PID=[0]
+174159 2024/07/02 07:17:21.510798 6719.6473 174 CCIC MMSV MMSV 1150 log warn verbose 1 [main.cpp:1179][operator()] Cannot connecting to org.genivi.mediamanager.Player : Failed to connect, is com.lge.PlayerEngine running?
+174158 2024/07/02 07:17:21.510743 6719.6473 173 CCIC MMSV MMSV 1150 log error verbose 1 [serviceprovider.cpp:31][onNameVanished] Failed to get name owner for com.lge.PlayerEngine
+174162 2024/07/02 07:17:21.511683 6719.6477 86 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:346][OnDBusNameAcquired] OnDBusNameAcquired called
+174164 2024/07/02 07:17:21.511737 6719.6482 87 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:361][OnDBusNameAcquired] player-engine skeleton created
+174207 2024/07/02 07:17:21.529445 6719.6654 177 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:301][isDefaultConnectionNameExist] ## find OK && return true [:1.5][1414]
+174210 2024/07/02 07:17:21.529502 6719.6655 179 CCIC MMSV MMSV 1150 log info verbose 1 [main.cpp:1161][operator()] PlayerEngine name appeared in the Dbus
+174209 2024/07/02 07:17:21.529484 6719.6655 178 CCIC MMSV MMSV 1150 log info verbose 1 [serviceprovider.cpp:21][onNameAppeared] Found com.lge.PlayerEngine on D-Bus
+174441 2024/07/02 07:17:21.592902 6719.7185 180 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:93][getConnectionName] getConnectionName() method
+174589 2024/07/02 07:17:21.647509 6719.7663 181 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:143][getConnectionName] New connection name created = :1.76
+174594 2024/07/02 07:17:21.647663 6719.7664 186 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:240][openUri] Create openUri command=[:1.76 / 231768] to playerprovider
+174593 2024/07/02 07:17:21.647644 6719.7664 185 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:310][printMap] Map MediaId = 231768:: Map PlayerEngineId = :1.76
+174592 2024/07/02 07:17:21.647624 6719.7664 184 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:310][printMap] Map MediaId = 98793:: Map PlayerEngineId = :1.65
+174591 2024/07/02 07:17:21.647585 6719.7664 183 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:310][printMap] Map MediaId = 37364:: Map PlayerEngineId = :1.59
+174590 2024/07/02 07:17:21.647524 6719.7664 182 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:230][openUri] Pass the connection name=[:1.76 / 231768] to playerprovider
+174596 2024/07/02 07:17:21.647695 6719.7667 188 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3420][preparePEProxy] preparePEProxy connectionName =:1.76, PEProxyID = 1
+174595 2024/07/02 07:17:21.647678 6719.7667 187 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3409][preparePEProxy] Proxy id inserted as 1, [:1.76]
+174599 2024/07/02 07:17:21.647741 6719.7714 190 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3448][preparePEProxy] proxyId = 1::connectionName = :1.76
+174598 2024/07/02 07:17:21.647726 6719.7714 189 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3439][preparePEProxy] playerengine_proxy_[1] is created
+174600 2024/07/02 07:17:21.647757 6719.7717 191 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:304][process] [OpenUriCommand] index: 0, uri: [1]http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3, pos_us: 0, channel: 2
+174602 2024/07/02 07:17:21.647790 6719.7722 192 CCIC MMSV MMSV 1150 log info verbose 1 [state_change_notifier.cpp:117][NotifyCommon] {"CurrentTrack":{"index":0,"uri":"[1]http:\/\/kakaoi-newtone-hdkia.kakao.com\/v2\/synthesize\/41d26ad788b6049244c538351a152c4f.mp3"}}
+174618 2024/07/02 07:17:21.648078 6719.7736 193 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:426][process] 2ch_slot=[1]
+174625 2024/07/02 07:17:21.648205 6719.7756 194 CCIC MMSV MMSV 1150 log info verbose 1 [event_system.cpp:97][WaitEvent] success:0x00000004, fail:0x00000000
+174661 2024/07/02 07:17:21.648876 6719.7829 89 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:117][MediaPlayerInit] gst_init_check call
+174660 2024/07/02 07:17:21.648860 6719.7829 88 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:134][SetURI] SetURI : uri: http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3 ,option : {"Option":{"mediatype":"kakao_i","cache":"false","show-preroll-frame":"true","provide-global-clock":"true","is-dsd":"false","channel":"2","2ch_slot":"1"}}
+174716 2024/07/02 07:17:21.709697 6719.8462 90 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:127][MediaPlayerInit] gst_init_check success
+174721 2024/07/02 07:17:21.709899 6719.8463 95 CCIC PESV PESV 231768 log warn verbose 1 [conf.cpp:449][GetKeyString] Unable to read for audio-filter: Key file does not have key “audio-filter” in group “default_sink”
+174720 2024/07/02 07:17:21.709883 6719.8463 94 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:671][LoadSink] default audio_sink: alsasink
+174719 2024/07/02 07:17:21.709866 6719.8463 93 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:665][LoadSink] default video_filter: nvmediasurfmixer
+174718 2024/07/02 07:17:21.709809 6719.8463 92 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:659][LoadSink] default video_sink: nvmediaeglwaylandsink
+174717 2024/07/02 07:17:21.709786 6719.8463 91 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:136][MediaPlayerInit] Set gst_debug successfully
+174729 2024/07/02 07:17:21.710033 6719.8464 103 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'avenc_aac' has 255 rank value
+174728 2024/07/02 07:17:21.710018 6719.8464 102 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediavp8viddec' has 257 rank value
+174727 2024/07/02 07:17:21.710003 6719.8464 101 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediah265viddec' has 257 rank value
+174726 2024/07/02 07:17:21.709987 6719.8464 100 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediavc1viddec' has 257 rank value
+174725 2024/07/02 07:17:21.709971 6719.8464 99 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediamjpegviddec' has 0 rank value
+174724 2024/07/02 07:17:21.709954 6719.8464 98 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediampeg4viddec' has 257 rank value
+174723 2024/07/02 07:17:21.709931 6719.8464 97 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediampeg2viddec' has 257 rank value
+174722 2024/07/02 07:17:21.709916 6719.8464 96 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'nvmediah264viddec' has 257 rank value
+174732 2024/07/02 07:17:21.710295 6719.8465 106 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'ocac3decoder' has 0 rank value
+174731 2024/07/02 07:17:21.710263 6719.8465 105 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:750][SetRank] 'ac3parse' has 0 rank value
+174730 2024/07/02 07:17:21.710049 6719.8465 104 CCIC PESV PESV 231768 log info verbose 1 [conf.cpp:735][GetRank] 'dlbdec' has 258 rank value
+174735 2024/07/02 07:17:21.710488 6719.8469 107 CCIC PESV PESV 231768 log info verbose 1 [audio_controller.cpp:32][setMediaType] type=[kakao_i]
+174740 2024/07/02 07:17:21.710600 6719.8470 112 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:377][SetURI] media type[3][kakao_i], channel=[2], slot=[1]
+174739 2024/07/02 07:17:21.710584 6719.8470 111 CCIC PESV PESV 231768 log info verbose 1 [audio_controller.cpp:111][fadeOut] volume_type_info_ is empty
+174738 2024/07/02 07:17:21.710565 6719.8470 110 CCIC PESV PESV 231768 log info verbose 1 [audio_controller.cpp:77][fadeOut] ##### Fade Out ######, ms=[100]
+174737 2024/07/02 07:17:21.710547 6719.8470 109 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:324][SetURI] #### Received 2ch_slot = [1]
+174736 2024/07/02 07:17:21.710529 6719.8470 108 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:320][SetURI] #### Received channel = [2]
+174743 2024/07/02 07:17:21.710648 6719.8471 115 CCIC PESV PESV 231768 log error verbose 1 [event.cpp:138][NotifyEventError] [NotifyEventError] error_code(201)
+174742 2024/07/02 07:17:21.710631 6719.8471 114 CCIC PESV PESV 231768 log info verbose 1 [null_pipeline.cpp:49][Unload] Unload
+174741 2024/07/02 07:17:21.710615 6719.8471 113 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:603][SetURIInternal] destroy_pipeline[1]
+174745 2024/07/02 07:17:21.712652 6719.8476 116 CCIC PESV PESV 231768 log info verbose 1 [null_pipeline.cpp:25][~NullPipeline]
+174746 2024/07/02 07:17:21.712798 6719.8477 117 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:148][ParseMediaTypeFromExtension] given uri[http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3], file extension[.mp3] , media_type_[3]
+174750 2024/07/02 07:17:21.712869 6719.8478 121 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:126][ParsePipelineType] media_type[3]
+174749 2024/07/02 07:17:21.712851 6719.8478 120 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:92][ParsePipelineType] return media type is [3]
+174748 2024/07/02 07:17:21.712835 6719.8478 119 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:182][ParseMediaTypeFromExtension] Type http(s) audio
+174747 2024/07/02 07:17:21.712819 6719.8478 118 CCIC PESV PESV 231768 log info verbose 1 [creator.cpp:177][ParseMediaTypeFromExtension] Type local audio
+174754 2024/07/02 07:17:21.712969 6719.8484 124 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:92][Load] Load with URI[http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/41d26ad788b6049244c538351a152c4f.mp3]
+174753 2024/07/02 07:17:21.712916 6719.8484 123 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:294][Load] saturation[0.000000] contrast[1.000000] brightness[1.000000]
+174751 2024/07/02 07:17:21.712885 6719.8484 122 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:293][Load] media_type_=[kakao_i], no_audio=[0] cache=[0], u_video=[0], u_redirect=[0]
+174756 2024/07/02 07:17:21.713003 6719.8490 195 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2974][onError] [201] ignored
+174760 2024/07/02 07:17:21.714530 6719.8510 126 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:253][CreateAudioSinkBin] audio-sink=[audioconvert ! audio/x-raw,channels=2 ! alsasink device=kakaoi1 buffer-time=80000 latency-time=10000]
+174759 2024/07/02 07:17:21.714481 6719.8510 125 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:201][CreateAudioSinkBin] Channel=[2] Alsa device name[kakaoi]
+174765 2024/07/02 07:17:21.719289 6719.8557 127 CCIC PESV PESV 231768 log info verbose 1 [seek_control.cpp:29][SeekControl]
+174766 2024/07/02 07:17:21.719342 6719.8558 128 CCIC PESV PESV 231768 log info verbose 1 [seek_control.cpp:72][Loop]
+174772 2024/07/02 07:17:21.727512 6719.8638 129 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:716][HandleElementAdd] uridecodebin0
+174775 2024/07/02 07:17:21.727735 6719.8640 130 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:751][HandleElementAdd] timeout interval-7000
+174785 2024/07/02 07:17:21.736521 6719.8726 131 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:810][HandleUriDecodeBinElementAdd] source
+174786 2024/07/02 07:17:21.736627 6719.8729 132 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:810][HandleUriDecodeBinElementAdd] typefindelement0
+174787 2024/07/02 07:17:21.745646 6719.8747 133 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:986][HandleBusChangeState] [BUS] GST_MESSAGE_STATE_CHANGED [NULL -> READY]
+174788 2024/07/02 07:17:21.746008 6719.8815 196 CCIC MMSV MMSV 1150 log info verbose 1 [event_system.cpp:105][WaitEvent] got succeed event: 00000004
+174791 2024/07/02 07:17:21.746077 6719.8821 199 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:598][process] Index -1 or Size = 0, Insert rate_list[0] rate=1 to vector
+174790 2024/07/02 07:17:21.746055 6719.8821 198 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:214][getRateAttrIdx] [getRateAttrIdx] Rate list size[0]
+174789 2024/07/02 07:17:21.746032 6719.8821 197 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:594][process] Mutex lock() in rate_list before inserting it
+174792 2024/07/02 07:17:21.746104 6719.8822 200 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:652][process] getPlaybackAttribute Idx = [0]
+174795 2024/07/02 07:17:21.746159 6719.8824 203 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:674][process] Index -1 or Size = 0, Insert speed_list[0] rate=1 to vector
+174794 2024/07/02 07:17:21.746141 6719.8824 202 CCIC MMSV MMSV 1150 log error verbose 1 [playerprovider.cpp:232][getSpeedAttrIdx] [getSpeedAttrIdx] Speed list size[0]
+174793 2024/07/02 07:17:21.746123 6719.8824 201 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:670][process] Mutex lock() in speed_list before inserting it
+174796 2024/07/02 07:17:21.752530 6719.8856 234 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) deleteHandleFromMediaIDMap:4534 : remove a MediaIDFromMediaIDMap, handle=[13]
+174798 2024/07/02 07:17:21.752620 6719.8857 236 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) getHandleFromMediaIDMap:4328 : find handle=[13], media_id=[231768]
+174797 2024/07/02 07:17:21.752598 6719.8857 235 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) createHandleToMediaIDMap:4517 : handle=[13], media_id=[231768]
+174800 2024/07/02 07:17:21.752699 6719.8858 238 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) MediaDataChangeCallback:650, CurrentTrack
+174799 2024/07/02 07:17:21.752676 6719.8858 237 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) MediaDataChangeCallback:627 : m_id=[231768] {"CurrentTrack":{"index":0,"uri":"[1]http:\/\/kakaoi-newtone-hdkia.kakao.com\/v2\/synthesize\/41d26ad788b6049244c538351a152c4f.mp3"}}
+174801 2024/07/02 07:17:21.752720 6719.8860 239 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) getHandleFromMediaIDMap:4328 : find handle=[13], media_id=[231768]
+174802 2024/07/02 07:17:21.752740 6719.8862 240 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) getHandleFromMediaIDMap:4328 : find handle=[13], media_id=[231768]
+174804 2024/07/02 07:17:21.752775 6719.8863 149 CCIC VA DBG 2695 log info verbose 1 load:: mMediaPlayerRequestCnt -> 1
+174803 2024/07/02 07:17:21.752758 6719.8863 148 CCIC VA DBG 2695 log error verbose 1 load -> 0
+174805 2024/07/02 07:17:21.752793 6719.8873 150 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: UNPENDING)
+175219 2024/07/02 07:17:22.106265 6720.2428 134 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:810][HandleUriDecodeBinElementAdd] decodebin0
+175221 2024/07/02 07:17:22.106849 6720.2434 135 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:810][HandleUriDecodeBinElementAdd] queue2-0
+175223 2024/07/02 07:17:22.112578 6720.2491 136 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:163][PrintGstLog] [../../alsa-lib-1.2.1.2/src/conf.c:5115 snd_config_expand] alsalib error: Unknown parameters {AES0 0x02 AES1 0x82 AES2 0x00 AES3 0x02}
+175224 2024/07/02 07:17:22.112682 6720.2492 137 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:163][PrintGstLog] [../../../alsa-lib-1.2.1.2/src/pcm/pcm.c:2642 snd_pcm_open_noupdate] alsalib error: Unknown PCM kakaoi1:{AES0 0x02 AES1 0x82 AES2 0x00 AES3 0x02}
+175239 2024/07/02 07:17:22.162888 6720.2994 138 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:857][HandleAutoplugSort] cap name - audio/mpeg
+175241 2024/07/02 07:17:22.162957 6720.2995 140 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:870][HandleAutoplugSort] playback timer start
+175240 2024/07/02 07:17:22.162934 6720.2995 139 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:860][HandleAutoplugSort] count - 0
+175242 2024/07/02 07:17:22.163181 6720.2997 141 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:890][HandleAutoplugSelect] #### gst_plugin_feature_get_name=[mpegaudioparse] ####
+175243 2024/07/02 07:17:22.165106 6720.3016 142 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:792][HandleDecodeBinElementAdd] mpegaudioparse0
+175244 2024/07/02 07:17:22.167844 6720.3043 143 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:857][HandleAutoplugSort] cap name - audio/mpeg
+175245 2024/07/02 07:17:22.167896 6720.3044 144 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:860][HandleAutoplugSort] count - 1
+175248 2024/07/02 07:17:22.168170 6720.3047 145 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:890][HandleAutoplugSelect] #### gst_plugin_feature_get_name=[avdec_mp3] ####
+175249 2024/07/02 07:17:22.168194 6720.3048 146 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:902][HandleAutoplugSelect] samplerate=[22050]
+175261 2024/07/02 07:17:22.192656 6720.3240 147 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:792][HandleDecodeBinElementAdd] avdec_mp3-0
+175268 2024/07/02 07:17:22.195991 6720.3325 148 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:716][HandleElementAdd] inputselector0
+175279 2024/07/02 07:17:22.218004 6720.3539 149 CCIC PESV PESV 231768 log info verbose 1 [media_player.cpp:163][PrintGstLog] [../gst-plugins-base-1.16.2/gst-libs/gst/audio/audio-resampler.c:274 convert_taps_gint16_c] can't find exact taps
+175285 2024/07/02 07:17:22.223163 6720.3589 150 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:986][HandleBusChangeState] [BUS] GST_MESSAGE_STATE_CHANGED [READY -> PAUSED]
+175287 2024/07/02 07:17:22.223200 6720.3590 152 CCIC PESV PESV 231768 log info verbose 1 [event.cpp:299][NotifyEventAsyncDone] [NotifyEventAsyncDone]
+175286 2024/07/02 07:17:22.223184 6720.3590 151 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:1038][HandleAsyncDone] [BUS] GST_MESSAGE_ASYNC_DONE
+175288 2024/07/02 07:17:22.223216 6720.3597 153 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+175290 2024/07/02 07:17:22.223589 6720.3601 155 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:941][GetLanguage] get-audio-tags : code[un]
+175289 2024/07/02 07:17:22.223525 6720.3601 154 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1316][IsSeekable] seekable : false
+175292 2024/07/02 07:17:22.223881 6720.3604 157 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1052][GetAudioTagInfo] GST_TAG_AUDIO_BITRATE-95995
+175291 2024/07/02 07:17:22.223829 6720.3604 156 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1051][GetAudioTagInfo] GST_TAG_AUDIO_CODEC-MPEG-1 Layer 3 (MP3)
+175296 2024/07/02 07:17:22.223954 6720.3605 161 CCIC PESV PESV 231768 log info verbose 1 [subtitle_controller.cpp:62][Load] Failed to get the allocated shared_memory
+175295 2024/07/02 07:17:22.223938 6720.3605 160 CCIC PESV PESV 231768 log info verbose 1 [subtitle_utils.cpp:203][GetSharedMemory] Don't need to create a shared memory
+175294 2024/07/02 07:17:22.223922 6720.3605 159 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1110][GetAudioPadInfo] GST_CAPS_AUDIO SAMPLERATE[22050]
+175293 2024/07/02 07:17:22.223903 6720.3605 158 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1109][GetAudioPadInfo] GST_CAPS_AUDIO - audio/x-raw, format=(string)S16LE, layout=(string)non-interleaved, rate=(int)22050, channels=(int)1
+175297 2024/07/02 07:17:22.224630 6720.3612 162 CCIC PESV PESV 231768 log info verbose 1 [event.cpp:91][NotifyEventSourceInfo] [NotifyEventSourceInfo] {"SourceInfo":{"CanPlay":true,"CanPause":true,"CanSeek":false,"TrackInfo":{"NumAudioTracks":1,"NumVideoTracks":0,"NumTextTracks":0,"AudioTrack":[{"Format":"un"}]}}}
+175298 2024/07/02 07:17:22.224800 6720.3614 163 CCIC PESV PESV 231768 log info verbose 1 [event.cpp:119][NotifyEventPlaybackStatus] [NotifyEventPlaybackStatus] Ready
+175299 2024/07/02 07:17:22.226682 6720.3630 204 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2464][onDuration] Duration [0], list size=[1], index=[0]
+175300 2024/07/02 07:17:22.226758 6720.3631 205 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2476][onDuration] Duration aft set 0
+175301 2024/07/02 07:17:22.237785 6720.3651 206 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2806][onSourceInfo]
+175302 2024/07/02 07:17:22.237843 6720.3652 207 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2811][onSourceInfo] CanSeek : 0
+175303 2024/07/02 07:17:22.237861 6720.3655 208 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:3577][fillSubtitleList] No TextTrack : No such node (TrackInfo.TextTrack)
+175304 2024/07/02 07:17:22.237879 6720.3657 209 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2562][onPlaybackStatus] Ready
+175305 2024/07/02 07:17:22.237895 6720.3674 241 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) getHandleFromMediaIDMap:4328 : find handle=[13], media_id=[231768]
+175306 2024/07/02 07:17:22.237911 6720.3675 242 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) PlaybackStatusChangeCallbackInternal:2911 : handle(13), onPlayingStateChanged(READY)
+175308 2024/07/02 07:17:22.237943 6720.3676 152 CCIC VA DBG 2695 log error verbose 1 current url size : 1
+175307 2024/07/02 07:17:22.237928 6720.3676 151 CCIC VA DBG 2695 log error verbose 1 onPlayingStateChanged : state HMediaPlayingState::READY
+175310 2024/07/02 07:17:22.237974 6720.3688 211 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:302][play] connectionName = :1.76
+175309 2024/07/02 07:17:22.237958 6720.3688 210 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:300][play] media id = 231768
+175311 2024/07/02 07:17:22.237990 6720.3691 212 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:885][process] [PlayCommand]
+175312 2024/07/02 07:17:22.238021 6720.3702 164 CCIC PESV PESV 231768 log info verbose 1 [dbus_player_service.cpp:73][Play] Play
+175313 2024/07/02 07:17:22.238042 6720.3703 165 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:363][Play] Play
+175314 2024/07/02 07:17:22.238057 6720.3723 166 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:799][ChangeStateToPlayNoWait] changed state to play
+175316 2024/07/02 07:17:22.238088 6720.3724 168 CCIC PESV PESV 231768 log info verbose 1 [event.cpp:119][NotifyEventPlaybackStatus] [NotifyEventPlaybackStatus] Playing
+175315 2024/07/02 07:17:22.238073 6720.3724 167 CCIC PESV PESV 231768 log info verbose 1 [subtitle_controller.cpp:91][Play] Play
+175317 2024/07/02 07:17:22.238104 6720.3743 169 CCIC PESV PESV 231768 log info verbose 1 [audio_controller.cpp:37][fadeIn] ##### Fade In ######, time_ms=[100]
+175318 2024/07/02 07:17:22.238127 6720.3744 170 CCIC PESV PESV 231768 log info verbose 1 [audio_controller.cpp:71][fadeIn] volume_type_info_ is empty
+175319 2024/07/02 07:17:22.240613 6720.3764 171 CCIC PESV PESV 231768 log info verbose 1 [streaming_pipeline.cpp:986][HandleBusChangeState] [BUS] GST_MESSAGE_STATE_CHANGED [PAUSED -> PLAYING]
+175320 2024/07/02 07:17:22.240671 6720.3765 172 CCIC PESV PESV 231768 log info verbose 1 [event.cpp:119][NotifyEventPlaybackStatus] [NotifyEventPlaybackStatus] Playing
+175321 2024/07/02 07:17:22.240690 6720.3769 213 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2523][onPlaybackStatus] Playing
+175325 2024/07/02 07:17:22.241946 6720.3781 153 CCIC VA DBG 2695 log info verbose 1 play -> 0
+175328 2024/07/02 07:17:22.242016 6720.3785 214 CCIC MMSV MMSV 1150 log info verbose 1 [playerprovider.cpp:2523][onPlaybackStatus] Playing
+175329 2024/07/02 07:17:22.244208 6720.3788 243 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) getHandleFromMediaIDMap:4328 : find handle=[13], media_id=[231768]
+175330 2024/07/02 07:17:22.244283 6720.3789 244 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:3472] [hmedia] [I] player) PlaybackStatusChangeCallbackInternal:2911 : handle(13), onPlayingStateChanged(PLAYING)
+175331 2024/07/02 07:17:22.244305 6720.3790 154 CCIC VA DBG 2695 log error verbose 1 onPlayingStateChanged : state HMediaPlayingState::PLAYING
+175334 2024/07/02 07:17:22.245256 6720.3791 157 CCIC VA DBG 2695 log error verbose 1 notifyStatus : status SYNTHESIZER_STARTED, Queue size: 1, token shadow//21556e59-2597-47be-8a95-b7802a4c61af
+175333 2024/07/02 07:17:22.245222 6720.3791 156 CCIC VA DBG 2695 log error verbose 1 setAnnounceStatus(URLStreamingAnnouncing)
+175332 2024/07/02 07:17:22.244324 6720.3791 155 CCIC VA DBG 2695 log error verbose 1 current url size : 1
+175337 2024/07/02 07:17:22.245354 6720.3792 160 CCIC VA DBG 2695 log error verbose 1 receivedToken [shadow//21556e59-2597-47be-8a95-b7802a4c61af] current token []
+175336 2024/07/02 07:17:22.245335 6720.3792 159 CCIC VA DBG 2695 log error verbose 1 -> Client Status SYNTHESIZER_STARTED Queue size: 1
+175335 2024/07/02 07:17:22.245314 6720.3792 158 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: DISCONNECTED, result:
+175346 2024/07/02 07:17:22.247555 6720.3835 161 CCIC VA DBG 2695 log error verbose 1 HClientStatusNotifier::getInstance().connect returns 0
+175352 2024/07/02 07:17:22.247774 6720.3836 163 CCIC VA DBG 2695 log error verbose 1 -> Client Status SYNTHESIZER_STARTED Queue size: 1
+175351 2024/07/02 07:17:22.247751 6720.3836 162 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: CONNECTED, result:
+175353 2024/07/02 07:17:22.247853 6720.3837 164 CCIC VA DBG 2695 log error verbose 1 startTimer!
+175595 2024/07/02 07:17:22.272597 6720.4091 165 CCIC VA DBG 2695 log error verbose 1 HClientStatusNotifier::getInstance().notifyStatus(SYNTHESIZER_STARTED) returns 0
+175804 2024/07/02 07:17:22.442783 6720.5776 173 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+175900 2024/07/02 07:17:22.642072 6720.7782 174 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+175955 2024/07/02 07:17:22.675339 6720.8111 166 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: RESPONSE_OK, result: {"linkInstruction":"link","vrActionResultList":null}
+175958 2024/07/02 07:17:22.676626 6720.8112 169 CCIC VA DBG 2695 log error verbose 1 doTaskAfterServerResponse {"linkInstruction":"link","vrActionResultList":null}
+175957 2024/07/02 07:17:22.676578 6720.8112 168 CCIC VA DBG 2695 log error verbose 1 stopTimer!
+175956 2024/07/02 07:17:22.676510 6720.8112 167 CCIC VA DBG 2695 log error verbose 1 -> Client Status SYNTHESIZER_STARTED Queue size: 1
+175960 2024/07/02 07:17:22.676668 6720.8113 171 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : url array size for audio play : 1
+175959 2024/07/02 07:17:22.676650 6720.8113 170 CCIC VA DBG 2695 log error verbose 1 received jsonData: {"linkInstruction":"link","vrActionResultList":null}
+175963 2024/07/02 07:17:22.676732 6720.8114 174 CCIC VA DBG 2695 log info verbose 1 Set by replacing state [speaking] with [end]
+175962 2024/07/02 07:17:22.676709 6720.8114 173 CCIC VA DBG 2695 log info verbose 1 promptText:
+175961 2024/07/02 07:17:22.676690 6720.8114 172 CCIC VA DBG 2695 log info verbose 1 [VR-HUD] VAClusterHudService::vrRequestUpdateVRStateApp enum state_update, speaking
+175964 2024/07/02 07:17:22.676773 6720.8119 175 CCIC VA DBG 2695 log error verbose 1 sendMessage(targetAppId: ccos.sys.ecumanager, msgID: 2567)
+175979 2024/07/02 07:17:22.677094 6720.8121 190 CCIC VA DBG 2695 log error verbose 1 "level": 3,
+175978 2024/07/02 07:17:22.677076 6720.8121 189 CCIC VA DBG 2695 log error verbose 1 "wave_form": {
+175977 2024/07/02 07:17:22.677057 6720.8121 188 CCIC VA DBG 2695 log error verbose 1 "vui_type": "a",
+175976 2024/07/02 07:17:22.677034 6720.8121 187 CCIC VA DBG 2695 log error verbose 1 "state": "end",
+175975 2024/07/02 07:17:22.676984 6720.8121 186 CCIC VA DBG 2695 log error verbose 1 },
+175974 2024/07/02 07:17:22.676963 6720.8121 185 CCIC VA DBG 2695 log error verbose 1 "prompt_string": ""
+175973 2024/07/02 07:17:22.676941 6720.8121 184 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+175972 2024/07/02 07:17:22.676922 6720.8121 183 CCIC VA DBG 2695 log error verbose 1 "prompt": {
+175971 2024/07/02 07:17:22.676903 6720.8121 182 CCIC VA DBG 2695 log error verbose 1 "kakao_state": 0,
+175970 2024/07/02 07:17:22.676885 6720.8121 181 CCIC VA DBG 2695 log error verbose 1 "kakao_enable": 0,
+175969 2024/07/02 07:17:22.676866 6720.8121 180 CCIC VA DBG 2695 log error verbose 1 "domain": "weather",
+175968 2024/07/02 07:17:22.676848 6720.8121 179 CCIC VA DBG 2695 log error verbose 1 "cmd": "state_update",
+175967 2024/07/02 07:17:22.676830 6720.8121 178 CCIC VA DBG 2695 log error verbose 1 "character": "ryan",
+175966 2024/07/02 07:17:22.676811 6720.8121 177 CCIC VA DBG 2695 log error verbose 1 "data": {
+175965 2024/07/02 07:17:22.676793 6720.8121 176 CCIC VA DBG 2695 log error verbose 1 data: {
+175987 2024/07/02 07:17:22.677245 6720.8122 198 CCIC VA DBG 2695 log error verbose 1 }
+175986 2024/07/02 07:17:22.677226 6720.8122 197 CCIC VA DBG 2695 log error verbose 1 "version": "1.0"
+175985 2024/07/02 07:17:22.677207 6720.8122 196 CCIC VA DBG 2695 log error verbose 1 "service_type": "HUD",
+175984 2024/07/02 07:17:22.677188 6720.8122 195 CCIC VA DBG 2695 log error verbose 1 "msg_comm_type": "1:1",
+175983 2024/07/02 07:17:22.677170 6720.8122 194 CCIC VA DBG 2695 log error verbose 1 },
+175982 2024/07/02 07:17:22.677149 6720.8122 193 CCIC VA DBG 2695 log error verbose 1 }
+175981 2024/07/02 07:17:22.677131 6720.8122 192 CCIC VA DBG 2695 log error verbose 1 "wave_enable": "enabled"
+175980 2024/07/02 07:17:22.677112 6720.8122 191 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+175989 2024/07/02 07:17:22.677287 6720.8127 199 CCIC VA DBG 2695 log error verbose 1 Waiting for new Audio play status sending response
+175991 2024/07/02 07:17:22.677333 6720.8130 201 CCIC VA DBG 2695 log error verbose 1 mStatusQueue.size() is 0. Cleared by other events to force stop!!!
+175990 2024/07/02 07:17:22.677311 6720.8130 200 CCIC VA DBG 2695 log error verbose 1 onServerEvent(HServerEventType: TIME_OUT, result:
+176091 2024/07/02 07:17:22.845856 6720.9790 175 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+176332 2024/07/02 07:17:23.044509 6721.1806 176 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+176449 2024/07/02 07:17:23.245183 6721.3815 177 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+176650 2024/07/02 07:17:23.449885 6721.5849 178 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+176809 2024/07/02 07:17:23.648968 6721.7855 179 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+176921 2024/07/02 07:17:23.849690 6721.9862 180 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+177246 2024/07/02 07:17:24.083100 6722.1869 181 CCIC PESV PESV 231768 log info verbose 1 [gst_media.cpp:1304][GetDuration] duration : 0 (sec)
+
+================================================================================================================================================================================
+
+LOGS OF RADIO :
+
+227647 2024/07/02 07:15:04.651895 6582.7474 152 CCIC VA DBG 2695 log error verbose 1 jsonString: {"appid":"ccos.hmi.radio.center-front","intent":"10","keySource":"mkbd","keyType":"radio","layout":0}
+229271 2024/07/02 07:15:04.911266 6583.0468 162 CCIC VA DBG 2695 log error verbose 1 jsonString: {"av":"radio","play_status":"play","seat":"driver"}
+230936 2024/07/02 07:15:05.713741 6583.8228 167 CCIC VA DBG 2695 log error verbose 1 jsonString: {"appid":"ccos.hmi.radio.center-front","disp":false,"intent":"10","keySource":"mkbd","keyType":"radio","layout":0}
+164569 2024/07/02 07:17:16.886534 6715.0043 70 CCIC VA DBG 2695 log error verbose 1 jsonString: {"av":"radio","play_status":"stop","seat":"driver"}
+
+====================================================================================================================================================================================
+
+Logs for Audiofocus change :
+
+
+193240 2024/07/02 07:14:45.247843 6563.3839 61 CCIC VA DBG 2695 log info verbose 1 hasNaviAudioFocus() Focused audio sources count: 3
+193296 2024/07/02 07:14:45.277765 6563.4079 65 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+194115 2024/07/02 07:14:45.353280 6563.4683 74 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: LOSS)
+194132 2024/07/02 07:14:45.353689 6563.4699 79 CCIC VA DBG 2695 log error verbose 1 onAudioFocusObtained.size() 0
+194131 2024/07/02 07:14:45.353673 6563.4699 78 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_TTS, device: SPEAKER, status: GET)
+194130 2024/07/02 07:14:45.353655 6563.4699 77 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: PENDING)
+194128 2024/07/02 07:14:45.353620 6563.4699 76 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: PENDING)
+197461 2024/07/02 07:14:46.059518 6564.1242 138 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_TTS, device: SPEAKER, status: LOSS)
+197462 2024/07/02 07:14:46.059535 6564.1243 139 CCIC VA DBG 2695 log error verbose 1 onAudioFocusObtained.size() 0
+197466 2024/07/02 07:14:46.059604 6564.1259 142 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: UNPENDING)
+197467 2024/07/02 07:14:46.059622 6564.1272 143 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: UNPENDING)
+203768 2024/07/02 07:14:54.403114 6572.5194 152 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: PENDING)
+203770 2024/07/02 07:14:54.403151 6572.5195 154 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HU_VR, device: SPEAKER, status: GET)
+203769 2024/07/02 07:14:54.403132 6572.5195 153 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: PENDING)
+213305 2024/07/02 07:14:59.267086 6577.4035 188 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+214395 2024/07/02 07:14:59.392429 6577.4964 201 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HU_VR, device: SPEAKER, status: LOSS)
+214400 2024/07/02 07:14:59.392512 6577.4965 205 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: GET)
+203769 2024/07/02 07:14:54.403132 6572.5195 153 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: PENDING)
+213305 2024/07/02 07:14:59.267086 6577.4035 188 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+214395 2024/07/02 07:14:59.392429 6577.4964 201 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HU_VR, device: SPEAKER, status: LOSS)
+214400 2024/07/02 07:14:59.392512 6577.4965 205 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: GET)
+214399 2024/07/02 07:14:59.392496 6577.4965 204 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: PENDING)
+214398 2024/07/02 07:14:59.392479 6577.4965 203 CCIC VA DBG 2695 log info verbose 1 onAudioFocusObtained.size() 1 onVRAudioFocusReleased.size() 0
+214396 2024/07/02 07:14:59.392446 6577.4965 202 CCIC VA DBG 2695 log info verbose 1 VR AudioFocus released
+215358 2024/07/02 07:14:59.633613 6577.7701 242 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: UNPENDING)
+217299 2024/07/02 07:15:01.229869 6579.3662 60 CCIC VA DBG 2695 log info verbose 1 hasNaviAudioFocus() Focused audio sources count: 3
+217314 2024/07/02 07:15:01.230656 6579.3671 64 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+217615 2024/07/02 07:15:01.289405 6579.3809 75 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: LOSS)
+217879 2024/07/02 07:15:01.295262 6579.3925 79 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_TTS, device: SPEAKER, status: GET)
+217878 2024/07/02 07:15:01.295247 6579.3925 78 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: PENDING)
+217877 2024/07/02 07:15:01.295231 6579.3925 77 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: PENDING)
+217880 2024/07/02 07:15:01.295278 6579.3926 80 CCIC VA DBG 2695 log error verbose 1 onAudioFocusObtained.size() 0
+220878 2024/07/02 07:15:01.897254 6580.0293 134 CCIC VA DBG 2695 log error verbose 1 onAudioFocusObtained.size() 0
+220877 2024/07/02 07:15:01.897237 6580.0293 133 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_TTS, device: SPEAKER, status: LOSS)
+221247 2024/07/02 07:15:01.910818 6580.0471 137 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: UNPENDING)
+221248 2024/07/02 07:15:01.910836 6580.0472 138 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: UNPENDING)
+228557 2024/07/02 07:15:04.865554 6582.8663 157 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: FM, device: SPEAKER, status: GET)
+228556 2024/07/02 07:15:04.865538 6582.8663 156 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: LOSS)
+238975 2024/07/02 07:15:15.040522 6593.1769 175 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: FM, device: SPEAKER, status: LOSS)
+239443 2024/07/02 07:15:15.146567 6593.1972 176 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: BT_A2DP1, device: SPEAKER, status: GET)
+8067 2024/07/02 07:15:27.239806 6605.3576 204 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: BT_A2DP1, device: SPEAKER, status: PENDING)
+8070 2024/07/02 07:15:27.239879 6605.3577 206 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HU_VR, device: SPEAKER, status: GET)
+8068 2024/07/02 07:15:27.239823 6605.3577 205 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HOTWORD_VR, device: SPEAKER, status: PENDING)
+15238 2024/07/02 07:15:30.202499 6608.3222 227 CCIC VA DBG 2695 log info verbose 1 onAudioFocusObtained.size() 0 onVRAudioFocusReleased.size() 0
+15237 2024/07/02 07:15:30.202478 6608.3222 226 CCIC VA DBG 2695 log info verbose 1 VR AudioFocus released
+
+===========================================================================================================================================
+
+61858 2024/07/02 07:16:08.669729 6646.8057 24 CCIC VA DBG 2695 log error verbose 1 "token": "shadow//5e1d7719-9399-426f-a742-5b08a7c710f2"
+61857 2024/07/02 07:16:08.669679 6646.8057 23 CCIC VA DBG 2695 log error verbose 1 "text": "현재 신대방동은 비가 와요. 이후 오전 11시에는 비가 오고, 오후 4시에는 흐리겠어요. 기온은 22도에서 26도예요. 미세먼지 농도는 현재는 보통이고, 오후는 좋음이에요. 우산 챙기는 거 잊지 마세요.",
+61856 2024/07/02 07:16:08.669663 6646.8057 22 CCIC VA DBG 2695 log error verbose 1 "mediaURL": "http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3",
+61855 2024/07/02 07:16:08.669642 6646.8057 21 CCIC VA DBG 2695 log error verbose 1 "tts": {
+61854 2024/07/02 07:16:08.669575 6646.8057 20 CCIC VA DBG 2695 log error verbose 1 "topic": "weather",
+61853 2024/07/02 07:16:08.669559 6646.8057 19 CCIC VA DBG 2695 log error verbose 1 "prevLayout": 0,
+61852 2024/07/02 07:16:08.669543 6646.8057 18 CCIC VA DBG 2695 log error verbose 1 "osdText": "음성 안내 중입니다. 핸들의 [★] 버튼을 눌러 종료할 수 있습니다.",
+61851 2024/07/02 07:16:08.669527 6646.8057 17 CCIC VA DBG 2695 log error verbose 1 "cp": "kakao",
+61850 2024/07/02 07:16:08.669511 6646.8057 16 CCIC VA DBG 2695 log error verbose 1 "command": "mediaPlay",
+61862 2024/07/02 07:16:08.669796 6646.8058 28 CCIC VA DBG 2695 log info verbose 1 setVRAssistantStatus
+61863 2024/07/02 07:16:08.672588 6646.8083 29 CCIC VA DBG 2695 log error verbose 1 setAnnounceStatus(PrepareToObtainStreamingFocus)
+61864 2024/07/02 07:16:08.672645 6646.8084 30 CCIC VA DBG 2695 log info verbose 1 obtainFocusImpl : 0
+61866 2024/07/02 07:16:08.672677 6646.8088 31 CCIC VA DBG 2695 log error verbose 1 obtainFocus for tts 0
+61889 2024/07/02 07:16:08.674549 6646.8109 37 CCIC VA DBG 2695 log error verbose 1 Call obtainFocus(sourceType: 1090519049, FRONT)
+61888 2024/07/02 07:16:08.674533 6646.8109 36 CCIC VA DBG 2695 log info verbose 1 source[2]: 1075838984
+61887 2024/07/02 07:16:08.674513 6646.8109 35 CCIC VA DBG 2695 log info verbose 1 source[1]: 537002038
+61886 2024/07/02 07:16:08.674497 6646.8109 34 CCIC VA DBG 2695 log info verbose 1 source[0]: 1075838977
+61885 2024/07/02 07:16:08.674482 6646.8109 33 CCIC VA DBG 2695 log info verbose 1 Focused audio sources count: 3
+61883 2024/07/02 07:16:08.674451 6646.8109 32 CCIC VA DBG 2695 log info verbose 1 Ignore useless return value from HAudioFocus::getFocusedSources(): [0]
+62010 2024/07/02 07:16:08.681032 6646.8166 38 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 205
+62570 2024/07/02 07:16:08.723444 6646.8517 41 CCIC VA DBG 2695 log info verbose 1 onAudioFocusObtained.size() 1 onVRAudioFocusReleased.size() 0
+62569 2024/07/02 07:16:08.723428 6646.8517 40 CCIC VA DBG 2695 log info verbose 1 VR AudioFocus released
+62568 2024/07/02 07:16:08.723412 6646.8517 39 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: HU_VR, device: SPEAKER, status: LOSS)
+62854 2024/07/02 07:16:08.732933 6646.8685 42 CCIC VA DBG 2695 log error verbose 1 onUpdateAppModeInfoUpdated infoName: VRAssistantStatus
+62859 2024/07/02 07:16:08.733035 6646.8686 47 CCIC VA DBG 2695 log error verbose 1 }
+62858 2024/07/02 07:16:08.732998 6646.8686 46 CCIC VA DBG 2695 log error verbose 1 "va_state": "RENDERING_CONTENT"
+62857 2024/07/02 07:16:08.732982 6646.8686 45 CCIC VA DBG 2695 log error verbose 1 "va_domain": "weather",
+62856 2024/07/02 07:16:08.732965 6646.8686 44 CCIC VA DBG 2695 log error verbose 1 "va_content": "weather",
+62855 2024/07/02 07:16:08.732949 6646.8686 43 CCIC VA DBG 2695 log error verbose 1 jsonString: {
+63172 2024/07/02 07:16:08.764508 6646.8966 49 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: KAKAO_I_STREAMING, device: SPEAKER, status: GET)
+63171 2024/07/02 07:16:08.764492 6646.8966 48 CCIC VA DBG 2695 log info verbose 1 VAAudioManager::onAudioFocusChanged(source: Unknown, device: SPEAKER, status: PENDING)
+63291 2024/07/02 07:16:08.791559 6646.9274 50 CCIC VA DBG 2695 log error verbose 1 VAPlayStatusNotifier::clearTask
+63296 2024/07/02 07:16:08.791645 6646.9275 55 CCIC VA DBG 2695 log info verbose 1 promptText:
+63295 2024/07/02 07:16:08.791629 6646.9275 54 CCIC VA DBG 2695 log info verbose 1 [VR-HUD] VAClusterHudService::vrRequestUpdateVRStateApp enum state_update, speaking
+63294 2024/07/02 07:16:08.791613 6646.9275 53 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : url array size for audio play : 1
+63293 2024/07/02 07:16:08.791596 6646.9275 52 CCIC VA DBG 2695 log info verbose 1 synthesizer mediaURL : [http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3]
+63292 2024/07/02 07:16:08.791579 6646.9275 51 CCIC VA DBG 2695 log error verbose 1 stopTimer!
+63297 2024/07/02 07:16:08.791661 6646.9276 56 CCIC VA DBG 2695 log info verbose 1 Set by replacing state [speaking] with [end]
+63313 2024/07/02 07:16:08.793177 6646.9285 68 CCIC VA DBG 2695 log error verbose 1 },
+63312 2024/07/02 07:16:08.793143 6646.9285 67 CCIC VA DBG 2695 log error verbose 1 "prompt_string": ""
+63311 2024/07/02 07:16:08.793126 6646.9285 66 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+63310 2024/07/02 07:16:08.793110 6646.9285 65 CCIC VA DBG 2695 log error verbose 1 "prompt": {
+63309 2024/07/02 07:16:08.793093 6646.9285 64 CCIC VA DBG 2695 log error verbose 1 "kakao_state": 0,
+63308 2024/07/02 07:16:08.793075 6646.9285 63 CCIC VA DBG 2695 log error verbose 1 "kakao_enable": 0,
+63307 2024/07/02 07:16:08.793037 6646.9285 62 CCIC VA DBG 2695 log error verbose 1 "domain": "weather",
+63306 2024/07/02 07:16:08.792103 6646.9285 61 CCIC VA DBG 2695 log error verbose 1 "cmd": "state_update",
+63305 2024/07/02 07:16:08.792086 6646.9285 60 CCIC VA DBG 2695 log error verbose 1 "character": "ryan",
+63304 2024/07/02 07:16:08.792069 6646.9285 59 CCIC VA DBG 2695 log error verbose 1 "data": {
+63303 2024/07/02 07:16:08.792051 6646.9285 58 CCIC VA DBG 2695 log error verbose 1 data: {
+63302 2024/07/02 07:16:08.791973 6646.9285 57 CCIC VA DBG 2695 log error verbose 1 sendMessage(targetAppId: ccos.sys.ecumanager, msgID: 2567)
+63325 2024/07/02 07:16:08.793459 6646.9286 80 CCIC VA DBG 2695 log error verbose 1 }
+63324 2024/07/02 07:16:08.793435 6646.9286 79 CCIC VA DBG 2695 log error verbose 1 "version": "1.0"
+63323 2024/07/02 07:16:08.793356 6646.9286 78 CCIC VA DBG 2695 log error verbose 1 "service_type": "HUD",
+63322 2024/07/02 07:16:08.793339 6646.9286 77 CCIC VA DBG 2695 log error verbose 1 "msg_comm_type": "1:1",
+63321 2024/07/02 07:16:08.793322 6646.9286 76 CCIC VA DBG 2695 log error verbose 1 },
+63320 2024/07/02 07:16:08.793305 6646.9286 75 CCIC VA DBG 2695 log error verbose 1 }
+63319 2024/07/02 07:16:08.793286 6646.9286 74 CCIC VA DBG 2695 log error verbose 1 "wave_enable": "enabled"
+63318 2024/07/02 07:16:08.793269 6646.9286 73 CCIC VA DBG 2695 log error verbose 1 "period_to_show": 0,
+63317 2024/07/02 07:16:08.793252 6646.9286 72 CCIC VA DBG 2695 log error verbose 1 "level": 3,
+63316 2024/07/02 07:16:08.793235 6646.9286 71 CCIC VA DBG 2695 log error verbose 1 "wave_form": {
+63315 2024/07/02 07:16:08.793212 6646.9286 70 CCIC VA DBG 2695 log error verbose 1 "vui_type": "a",
+63314 2024/07/02 07:16:08.793196 6646.9286 69 CCIC VA DBG 2695 log error verbose 1 "state": "end",
+63329 2024/07/02 07:16:08.793529 6646.9290 81 CCIC VA DBG 2695 log error verbose 1 onUrlAudioPlayRequested : call url play
+63333 2024/07/02 07:16:08.793607 6646.9291 83 CCIC VA DBG 2695 log error verbose 1 setURL(http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3) -> 0
+63332 2024/07/02 07:16:08.793584 6646.9291 211 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) setURL:739 : called setURL(13) : [http://kakaoi-newtone-hdkia.kakao.com/v2/synthesize/5c250859c7f6118cea9faf235e88c9fc.mp3]
+63331 2024/07/02 07:16:08.793566 6646.9291 82 CCIC VA DBG 2695 log info verbose 1 urlPlay
+63334 2024/07/02 07:16:08.793624 6646.9292 212 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) load:878 : channel info(0), 2ch_down=[false]
+63403 2024/07/02 07:16:08.976984 6646.9912 213 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] player) load:928 : ret=[0], Available slot=[0]
+63404 2024/07/02 07:16:08.977002 6646.9913 214 CCIC VA HMED 2695 log info verbose 1 [p:2695] [t:2695] [hmedia] [I] load:1213 Setting media_type [13]
+63408 2024/07/02 07:16:08.977076 6646.9924 94 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:48][createPlayerEngine] launch PlayerEngine: playerservice [/usr/bin/playerservice]
+63407 2024/07/02 07:16:08.977058 6646.9924 93 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:715][checkValidMediaId] last_fail_id=[0]
+63406 2024/07/02 07:16:08.977038 6646.9924 92 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:180][openUri] Creating PE for multi instance, type=[13], saved_id=[0], pe_cnt=[3]
+63405 2024/07/02 07:16:08.977020 6646.9924 91 CCIC MMSV MMSV 1150 log info verbose 1 [playerstub.cpp:126][openUri] load contents.. channels=[2]
+63413 2024/07/02 07:16:08.977196 6646.9940 95 CCIC MMSV MMSV 1150 log info verbose 1 [playerengine_manager.cpp:59][createPlayerEngine] PlayerEngine process 227793 created
+
+======================================================================================================================================================================
+
+194044 2024/07/02 07:14:45.349203 6563.4660 71 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 192
+196772 2024/07/02 07:14:45.995013 6564.0802 137 CCIC VA DBG 2695 log info verbose 1 Audio focus release(192): 0
+214124 2024/07/02 07:14:59.383194 6577.4920 194 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 194
+217416 2024/07/02 07:15:01.285115 6579.3727 70 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 195
+220847 2024/07/02 07:15:01.896534 6580.0273 132 CCIC VA DBG 2695 log info verbose 1 Audio focus release(195): 0
+228558 2024/07/02 07:15:04.865570 6582.8663 158 CCIC VA DBG 2695 log error verbose 1 other audio source gets focus... clear all task!
+239444 2024/07/02 07:15:15.146583 6593.1972 177 CCIC VA DBG 2695 log error verbose 1 other audio source gets focus... clear all task!
+24792 2024/07/02 07:15:40.588501 6618.7093 243 CCIC VA DBG 2695 log error verbose 1 other audio source gets focus... clear all task!
+36305 2024/07/02 07:15:48.729016 6626.8603 32 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 201
+41178 2024/07/02 07:15:51.691001 6629.8044 164 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 202
+44316 2024/07/02 07:15:52.333069 6630.4357 230 CCIC VA DBG 2695 log info verbose 1 Audio focus release(202): 0
+50787 2024/07/02 07:16:01.232600 6639.3351 247 CCIC VA DBG 2695 log error verbose 1 other audio source gets focus... clear all task!
+62010 2024/07/02 07:16:08.681032 6646.8166 38 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 205
+75004 2024/07/02 07:16:18.215208 6656.2364 170 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 206
+78973 2024/07/02 07:16:18.891672 6657.0141 236 CCIC VA DBG 2695 log info verbose 1 Audio focus release(206): 0
+82629 2024/07/02 07:16:20.857945 6658.9783 252 CCIC VA DBG 2695 log error verbose 1 navi audio source gets focus! ignore!
+129288 2024/07/02 07:16:54.258789 6692.3939 17 CCIC VA DBG 2695 log error verbose 1 navi audio source gets focus! ignore!
+157831 2024/07/02 07:17:14.623101 6712.7361 38 CCIC VA DBG 2695 log error verbose 1 other audio source gets focus... clear all task!
+172867 2024/07/02 07:17:21.346048 6719.4699 102 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 212
+179418 2024/07/02 07:17:26.114256 6724.2206 234 CCIC VA DBG 2695 log error verbose 1 Result obtainFocus() -> return: OK, focusId: 213
+183674 2024/07/02 07:17:26.929885 6725.0517 44 CCIC VA DBG 2695 log info verbose 1 Audio focus release(213): 0
+
+
+
+
+
+
 
